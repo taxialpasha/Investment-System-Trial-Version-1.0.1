@@ -1,0 +1,1288 @@
+/**
+ * security-styles.css
+ * أنماط نظام الأمان المتكامل
+ */
+
+/* ===== أنماط شاشة تسجيل الدخول ===== */
+.security-screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #f9fafc;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.security-screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.security-login-container {
+    width: 100%;
+    max-width: 420px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    direction: rtl;
+    font-family: 'Tajawal', Arial, sans-serif;
+}
+
+.security-login-header {
+    background: linear-gradient(120deg, #3b82f6, #2563eb);
+    color: white;
+    padding: 30px;
+    text-align: center;
+}
+
+.security-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.security-logo i {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.security-logo h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.security-login-body {
+    padding: 30px;
+}
+
+.security-form-group {
+    margin-bottom: 20px;
+}
+
+.security-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #374151;
+}
+
+.security-input-container {
+    position: relative;
+}
+
+.security-input-container i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+.security-input-container input {
+    height: 50px;
+    width: 100%;
+    padding: 0 45px 0 15px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.security-input-container input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+.security-toggle-password {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+}
+
+.security-remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.security-remember-me input {
+    margin-left: 8px;
+}
+
+.security-error-message {
+    color: #ef4444;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+}
+
+.security-form-actions {
+    display: flex;
+    justify-content: space-between;
+}
+
+.security-login-btn {
+    height: 50px;
+    padding: 0 30px;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.security-login-btn:hover {
+    background-color: #2563eb;
+}
+
+.security-login-footer {
+    text-align: center;
+    padding: 15px;
+    border-top: 1px solid #e5e7eb;
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* ===== أنماط النوافذ المنبثقة ===== */
+.security-modal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.security-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.security-modal-content {
+    width: 100%;
+    max-width: 600px;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    direction: rtl;
+    font-family: 'Tajawal', Arial, sans-serif;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.security-modal-lg {
+    max-width: 800px;
+}
+
+.security-modal-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.security-modal-header h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin: 0;
+    color: #1f2937;
+}
+
+.security-modal-close {
+    background: none;
+    border: none;
+    color: #6b7280;
+    cursor: pointer;
+    font-size: 18px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.security-modal-close:hover {
+    background-color: #f3f4f6;
+    color: #1f2937;
+}
+
+.security-modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.security-form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.security-form-row .security-form-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+.security-form-hint {
+    display: block;
+    margin-top: 5px;
+    color: #6b7280;
+    font-size: 0.85rem;
+}
+
+.security-checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.security-checkbox-label input {
+    margin-left: 10px;
+}
+
+.security-form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.security-btn {
+    height: 40px;
+    padding: 0 20px;
+    border-radius: 8px;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.security-btn:hover {
+    background-color: #e5e7eb;
+}
+
+.security-btn-primary {
+    background-color: #3b82f6;
+    color: white;
+    border-color: #3b82f6;
+}
+
+.security-btn-primary:hover {
+    background-color: #2563eb;
+}
+
+.security-btn-danger {
+    background-color: #ef4444;
+    color: white;
+    border-color: #ef4444;
+}
+
+.security-btn-danger:hover {
+    background-color: #dc2626;
+}
+
+.security-btn-cancel {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.security-btn-cancel:hover {
+    background-color: #e5e7eb;
+}
+
+.security-btn-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    color: #6b7280;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.security-btn-icon:hover {
+    background-color: #e5e7eb;
+    color: #1f2937;
+}
+
+.security-edit-user {
+    color: #3b82f6;
+}
+
+.security-edit-user:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+}
+
+.security-delete-user {
+    color: #ef4444;
+}
+
+.security-delete-user:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+}
+
+.security-unlock-user {
+    color: #10b981;
+}
+
+.security-unlock-user:hover {
+    background-color: rgba(16, 185, 129, 0.1);
+}
+
+/* ===== أنماط الجداول ===== */
+.security-users-table-container,
+.security-audit-log-table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.security-users-table,
+.security-audit-log-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+.security-users-table th,
+.security-users-table td,
+.security-audit-log-table th,
+.security-audit-log-table td {
+    padding: 12px 16px;
+    text-align: right;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.security-users-table th,
+.security-audit-log-table th {
+    background-color: #f9fafb;
+    font-weight: 600;
+    color: #4b5563;
+}
+
+.security-users-table tr:hover,
+.security-audit-log-table tr:hover {
+    background-color: #f9fafb;
+}
+
+.security-users-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.security-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.security-users-table-container {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.security-user-inactive td {
+    color: #9ca3af;
+}
+
+.security-user-locked td {
+    background-color: #fee2e2;
+}
+
+.security-text-center {
+    text-align: center !important;
+}
+
+.security-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 8px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.security-badge-success {
+    background-color: #d1fae5;
+    color: #047857;
+}
+
+.security-badge-warning {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.security-badge-danger {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.security-search {
+    position: relative;
+}
+
+.security-search input {
+    padding-right: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    min-width: 250px;
+}
+
+.security-search i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6b7280;
+}
+
+/* ===== أنماط سجل الأحداث ===== */
+.security-audit-log-filters {
+    margin-bottom: 20px;
+    padding: 16px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+}
+
+.security-audit-log-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.security-log-warning {
+    background-color: #fef3c7;
+}
+
+.security-log-danger {
+    background-color: #fee2e2;
+}
+
+/* ===== أنماط مؤشر قوة كلمة المرور ===== */
+.security-password-strength {
+    margin-top: 10px;
+}
+
+.security-strength-meter {
+    height: 5px;
+    background-color: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.security-strength-fill {
+    height: 100%;
+    width: 0;
+    background-color: #ef4444;
+    transition: all 0.3s ease;
+}
+
+.security-strength-text {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+/* ===== أنماط قائمة الأمان المنسدلة ===== */
+.security-dropdown-menu {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 260px;
+    overflow: hidden;
+    font-family: 'Tajawal', Arial, sans-serif;
+    direction: rtl;
+}
+
+.security-menu-header {
+    padding: 16px;
+    background-color: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.security-menu-user {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.security-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    color: white;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.security-user-info {
+    flex: 1;
+}
+
+.security-username {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 3px;
+}
+
+.security-role {
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.security-menu-items {
+    padding: 8px 0;
+}
+
+.security-menu-item {
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+..security-menu-item:hover {
+    background-color: #f3f4f6;
+}
+
+.security-menu-item i {
+    width: 20px;
+    text-align: center;
+    font-size: 16px;
+    color: #6b7280;
+}
+
+.security-menu-item span {
+    flex: 1;
+    color: #1f2937;
+}
+
+.security-divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 8px 0;
+}
+
+#security-logout {
+    color: #ef4444;
+}
+
+#security-logout i {
+    color: #ef4444;
+}
+
+/* ===== أنماط الإشعارات ===== */
+.security-notification {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    z-index: 9999;
+    transform: translateY(-20px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    font-family: 'Tajawal', Arial, sans-serif;
+    direction: rtl;
+}
+
+.security-notification.security-show {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+}
+
+.security-notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    margin-left: 16px;
+    flex-shrink: 0;
+}
+
+.security-notification-success .security-notification-icon {
+    background-color: #d1fae5;
+    color: #047857;
+}
+
+.security-notification-error .security-notification-icon {
+    background-color: #fee2e2;
+    color: #b91c1c;
+}
+
+.security-notification-warning .security-notification-icon {
+    background-color: #fef3c7;
+    color: #b45309;
+}
+
+.security-notification-info .security-notification-icon {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.security-notification-message {
+    flex: 1;
+    color: #1f2937;
+    font-size: 0.95rem;
+}
+
+.security-notification-close {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #9ca3af;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    margin-right: 8px;
+    flex-shrink: 0;
+}
+
+.security-notification-close:hover {
+    background-color: #f3f4f6;
+    color: #1f2937;
+}
+
+/* ===== تأثيرات متحركة ===== */
+@keyframes security-shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.security-shake {
+    animation: security-shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes security-fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.security-fadeIn {
+    animation: security-fadeIn 0.3s ease-in-out;
+}
+
+@keyframes security-fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.security-fadeInUp {
+    animation: security-fadeInUp 0.4s ease-in-out;
+}
+
+/* ===== محتوى قفل الشاشة ===== */
+.security-lock-screen {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(15, 23, 42, 0.95);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.security-lock-screen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.security-lock-screen-content {
+    width: 100%;
+    max-width: 360px;
+    text-align: center;
+    animation: security-fadeInUp 0.5s ease;
+}
+
+.security-lock-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.security-lock-screen-title {
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.security-lock-screen-message {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 30px;
+}
+
+.security-lock-form {
+    margin-bottom: 20px;
+}
+
+.security-unlock-btn {
+    height: 50px;
+    width: 100%;
+    background-color: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Tajawal', Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+}
+
+.security-unlock-btn:hover {
+    background-color: #2563eb;
+}
+
+.security-lock-screen-footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.9rem;
+}
+
+/* ===== العناصر المتخصصة ===== */
+.security-otp-inputs {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    direction: ltr;
+}
+
+.security-otp-input {
+    width: 50px;
+    height: 60px;
+    border-radius: 8px;
+    border: 2px solid #d1d5db;
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.security-otp-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    outline: none;
+}
+
+/* ===== شريط التقدم ===== */
+.security-progress-container {
+    width: 100%;
+    height: 4px;
+    background-color: #e5e7eb;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.security-progress-bar {
+    height: 100%;
+    background-color: #3b82f6;
+    width: 0;
+    transition: width 0.4s ease;
+}
+
+/* ===== عناصر إضافية ===== */
+.security-info-box {
+    background-color: #f0f9ff;
+    border: 1px solid #bae6fd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.security-info-box i {
+    color: #0ea5e9;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+.security-warning-box {
+    background-color: #fef3c7;
+    border: 1px solid #fde68a;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 20px;
+}
+
+.security-warning-box i {
+    color: #f59e0b;
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+/* ===== أنماط مخصصة للجوال ===== */
+@media (max-width: 576px) {
+    .security-modal-content {
+        width: 95%;
+        max-width: none;
+    }
+    
+    .security-form-row {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .security-notification {
+        width: calc(100% - 40px);
+        left: 20px;
+    }
+    
+    .security-dropdown-menu {
+        width: 280px;
+        max-width: 90vw;
+    }
+    
+    .security-login-container {
+        max-width: 90%;
+    }
+}
+
+/* ===== أنماط إضافية للتكامل مع التطبيق الرئيسي ===== */
+body.guest .auth-only {
+    display: none !important;
+}
+
+body.authenticated .guest-only {
+    display: none !important;
+}
+
+/* ===== رسالة المزايا المحظورة ===== */
+.security-blocked-feature {
+    background-color: #fee2e2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 20px 0;
+    text-align: center;
+    color: #b91c1c;
+}
+
+.security-blocked-feature i {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.security-blocked-feature h3 {
+    margin: 5px 0;
+    font-size: 18px;
+}
+
+/* ===== مرشح التعتيم للتأثيرات ===== */
+.security-blur-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    z-index: 9998;
+    transition: all 0.3s ease;
+}
+
+/* ===== أنماط إضافية للنسخة المتقدمة ===== */
+.security-pro-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 8px;
+    background-color: #7c3aed;
+    color: white;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.security-feature-card {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.security-feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.security-feature-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background-color: #ebf5ff;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.security-feature-title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.security-feature-desc {
+    color: #4b5563;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* ===== أنماط تاريخ انتهاء الصلاحية ===== */
+.security-expiration-warning {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    background-color: #fef3c7;
+    color: #92400e;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.security-expiration-warning i {
+    margin-left: 8px;
+}
+
+.security-time-remaining {
+    font-weight: 600;
+}
+
+/* ===== تأثيرات النمط المظلم ===== */
+.dark-mode .security-login-container {
+    background-color: #1f2937;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.dark-mode .security-login-body {
+    background-color: #1f2937;
+}
+
+.dark-mode .security-form-group label {
+    color: #e5e7eb;
+}
+
+.dark-mode .security-input-container input {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+
+.dark-mode .security-input-container i {
+    color: #9ca3af;
+}
+
+.dark-mode .security-login-footer {
+    border-top-color: #374151;
+    color: #9ca3af;
+}
+
+.dark-mode .security-modal-content {
+    background-color: #1f2937;
+}
+
+.dark-mode .security-modal-header {
+    border-bottom-color: #374151;
+}
+
+.dark-mode .security-modal-header h3 {
+    color: #e5e7eb;
+}
+
+.dark-mode .security-btn {
+    background-color: #374151;
+    border-color: #4b5563;
+    color: #e5e7eb;
+}
+
+.dark-mode .security-btn:hover {
+    background-color: #4b5563;
+}
+
+.dark-mode .security-btn-primary {
+    background-color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.dark-mode .security-btn-primary:hover {
+    background-color: #2563eb;
+}
+
+/* ===== أنماط شاشة إعادة تعيين كلمة المرور ===== */
+.security-reset-screen {
+    text-align: center;
+    padding: 20px;
+}
+
+.security-reset-icon {
+    font-size: 64px;
+    color: #3b82f6;
+    margin-bottom: 20px;
+}
+
+.security-reset-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.security-reset-message {
+    color: #6b7280;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.security-reset-form {
+    max-width: 360px;
+    margin: 0 auto;
+}
+
+.security-divider-text {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #6b7280;
+}
+
+.security-divider-text::before,
+.security-divider-text::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background-color: #e5e7eb;
+}
+
+.security-divider-text span {
+    padding: 0 16px;
+}
+
+/* ===== أنماط تسجيل الدخول بطرق متعددة ===== */
+.security-auth-methods {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.security-auth-method {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f3f4f6;
+    border: 1px solid #e5e7eb;
+    color: #4b5563;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.security-auth-method:hover {
+    background-color: #e5e7eb;
+}
+
+.security-auth-google {
+    color: #ea4335;
+}
+
+.security-auth-facebook {
+    color: #1877f2;
+}
+
+.security-auth-twitter {
+    color: #1da1f2;
+}
+
+.security-auth-microsoft {
+    color: #00a4ef;
+}
+
+/* ===== أنماط إضافية للمستويات المختلفة من الصلاحيات ===== */
+.security-permission-level {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.security-permission-level-indicator {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-left: 8px;
+}
+
+.security-permission-low {
+    background-color: #fee2e2;
+}
+
+.security-permission-medium {
+    background-color: #fef3c7;
+}
+
+.security-permission-high {
+    background-color: #d1fae5;
+}
+
+.security-permission-full {
+    background-color: #3b82f6;
+}
+
+.security-active-sessions {
+    margin-top: 20px;
+}
+
+.security-active-session {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px;
+    border-radius: 8px;
+    background-color: #f9fafb;
+    margin-bottom: 10px;
+}
+
+.security-active-session.current {
+    border: 1px solid #3b82f6;
+    background-color: #eff6ff;
+}
+
+.security-session-info {
+    display: flex;
+    align-items: center;
+}
+
+.security-session-device {
+    margin-right: 12px;
+    font-size: 20px;
+    color: #6b7280;
+}
+
+.security-session-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 14px;
+}
+
+.security-session-details p {
+    margin: 0;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.security-session-current {
+    background-color: #dcfce7;
+    color: #166534;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 12px;
+    margin-right: 8px;
+}
