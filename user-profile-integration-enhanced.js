@@ -422,7 +422,9 @@ function showBasicProfileModal(currentUser) {
                     <h3 class="modal-title">الملف الشخصي</h3>
                     <button class="modal-close">&times;</button>
                 </div>
-               <div class="profile-avatar">
+                <div class="modal-body">
+                
+                <div class="profile-avatar">
                         <div class="avatar-circle">
                             ${currentUser.displayName ? currentUser.displayName.charAt(0).toUpperCase() : 'U'}
                         </div>
@@ -1062,139 +1064,98 @@ function filterUsers(searchText) {
     });
 }
 
-
 /**
- * عرض نافذة إضافة مستخدم
+ * عرض نافذة إضافة مستخدم جديد
  */
 function showAddUserModal() {
-    const modalContent = `
-        <div class="modal-header">
-            <h3 class="modal-title">إضافة مستخدم جديد</h3>
-            <button class="modal-close">&times;</button>
-        </div>
-        <div class="modal-body">
-            <form id="add-user-form">
-                <div class="form-group">
-                    <label class="form-label">الاسم الكامل</label>
-                    <input type="text" class="form-input" id="user-fullname" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">البريد الإلكتروني</label>
-                    <input type="email" class="form-input" id="user-email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">كلمة المرور</label>
-                    <div class="password-input-container">
-                        <input type="password" class="form-input" id="user-password" required>
-                        <button type="button" class="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">تأكيد كلمة المرور</label>
-                    <div class="password-input-container">
-                        <input type="password" class="form-input" id="user-confirm-password" required>
-                        <button type="button" class="toggle-password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="form-label">نوع المستخدم</label>
-                    <select class="form-select" id="user-type">
-                        <option value="user">مستخدم عادي</option>
-                        <option value="manager">مدير</option>
-                        <option value="admin">مسؤول</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close-btn">إلغاء</button>
-            <button class="btn btn-primary" id="save-user-btn">إضافة</button>
-        </div>
-    `;
+    // التحقق من وجود النافذة
+    let addUserModal = document.getElementById('add-user-modal');
     
-    showModal('add-user-modal', modalContent, function(modal) {
-        // إضافة مستمعي أحداث لأزرار إظهار/إخفاء كلمة المرور
-        const togglePasswordButtons = modal.querySelectorAll('.toggle-password');
-        togglePasswordButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const passwordInput = this.parentElement.querySelector('input');
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
-                    this.querySelector('i').classList.remove('fa-eye');
-                    this.querySelector('i').classList.add('fa-eye-slash');
-                } else {
-                    passwordInput.type = 'password';
-                    this.querySelector('i').classList.remove('fa-eye-slash');
-                    this.querySelector('i').classList.add('fa-eye');
-                }
-            });
-        });
+    if (!addUserModal) {
+        // إنشاء عنصر النافذة
+        addUserModal = document.createElement('div');
+        addUserModal.id = 'add-user-modal';
+        addUserModal.className = 'modal-overlay';
         
-        // مستمع حدث حفظ المستخدم
-        const saveUserBtn = modal.querySelector('#save-user-btn');
-        if (saveUserBtn) {
-            saveUserBtn.addEventListener('click', function() {
-                const fullnameInput = document.getElementById('user-fullname');
-                const emailInput = document.getElementById('user-email');
-                const passwordInput = document.getElementById('user-password');
-                const confirmPasswordInput = document.getElementById('user-confirm-password');
-                const userTypeSelect = document.getElementById('user-type');
+        addUserModal.innerHTML = `
+            <div class="modal">
+                <div class="modal-header">
+                    <h3 class="modal-title">إضافة مستخدم جديد</h3>
+                    <button class="modal-close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="add-user-form">
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-input" id="new-user-email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">الاسم الكامل</label>
+                            <input type="text" class="form-input" id="new-user-name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">كلمة المرور</label>
+                            <div class="password-input-container">
+                                <input type="password" class="form-input" id="new-user-password" required>
+                                <button type="button" class="toggle-password">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">نوع المستخدم</label>
+                            <select class="form-select" id="new-user-type">
+                                <option value="user">مستخدم عادي</option>
+                                <option value="manager">مدير</option>
+                                <option value="admin">مسؤول النظام</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-outline modal-close-btn">إلغاء</button>
+                    <button class="btn btn-primary" id="save-new-user-btn">إضافة المستخدم</button>
+                </div>
+            </div>
+        `;
+        
+        document.body.appendChild(addUserModal);
+        
+        // إضافة مستمعي الأحداث
+        setupBasicModalListeners(addUserModal);
+        
+        // مستمع حدث لزر حفظ المستخدم الجديد
+        const saveNewUserBtn = addUserModal.querySelector('#save-new-user-btn');
+        if (saveNewUserBtn) {
+            saveNewUserBtn.addEventListener('click', function() {
+                // الحصول على قيم الحقول
+                const email = document.getElementById('new-user-email').value;
+                const name = document.getElementById('new-user-name').value;
+                const password = document.getElementById('new-user-password').value;
+                const type = document.getElementById('new-user-type').value;
                 
-                if (!fullnameInput || !emailInput || !passwordInput || !confirmPasswordInput || !userTypeSelect) {
-                    showNotification('خطأ في النموذج: بعض الحقول المطلوبة غير موجودة', 'error');
-                    return;
-                }
-                
-                const fullName = fullnameInput.value.trim();
-                const email = emailInput.value.trim();
-                const password = passwordInput.value;
-                const confirmPassword = confirmPasswordInput.value;
-                const userType = userTypeSelect.value;
-                
-                if (!fullName || !email || !password || !confirmPassword) {
-                    showNotification('يرجى إدخال جميع البيانات المطلوبة', 'error');
+                // التحقق من البيانات
+                if (!email || !name || !password) {
+                    alert('يرجى إدخال جميع البيانات المطلوبة');
                     return;
                 }
                 
                 if (password.length < 6) {
-                    showNotification('يجب أن تكون كلمة المرور 6 أحرف على الأقل', 'error');
+                    alert('يجب أن تكون كلمة المرور 6 أحرف على الأقل');
                     return;
                 }
                 
-                if (password !== confirmPassword) {
-                    showNotification('كلمة المرور وتأكيدها غير متطابقين', 'error');
-                    return;
-                }
-                
-                // التحقق من صلاحية إنشاء مسؤول
-                if (userType === USER_TYPES.ADMIN && currentUser.type !== USER_TYPES.ADMIN) {
-                    showNotification('ليس لديك صلاحية إنشاء مستخدمين بصلاحيات مسؤول', 'error');
-                    return;
-                }
-                
-                // تغيير حالة الزر
-                const originalText = this.textContent;
-                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإضافة...';
-                this.disabled = true;
-                
-                // إنشاء المستخدم
-                signup(email, password, fullName, ADMIN_CODE, userType)
-                    .then(result => {
-                        showNotification(`تم إضافة المستخدم ${fullName} بنجاح`, 'success');
+                // إضافة المستخدم
+                createNewUser(email, password, name, type)
+                    .then(() => {
+                        alert('تم إضافة المستخدم بنجاح');
+                        addUserModal.classList.remove('active');
                         
                         // تحديث قائمة المستخدمين
-                        refreshUsersList();
-                        
-                        // إغلاق النافذة
-                        closeModal('add-user-modal');
+                        loadUsers();
                     })
                     .catch(error => {
                         console.error('خطأ في إضافة المستخدم:', error);
@@ -1204,1301 +1165,514 @@ function showAddUserModal() {
                         if (error.code === 'auth/email-already-in-use') {
                             errorMessage = 'البريد الإلكتروني مستخدم بالفعل';
                         } else if (error.code === 'auth/invalid-email') {
-                            errorMessage = 'البريد الإلكتروني غير صالح';
-                        } else if (error.message) {
-                            errorMessage = error.message;
-                        }
-                        
-                        showNotification(errorMessage, 'error');
-                    })
-                    .finally(() => {
-                        // إعادة حالة الزر
-                        this.textContent = originalText;
-                        this.disabled = false;
-                    });
-            });
-        }
-    });
+                            errorMessage = 'البريد الإلكتروني غير صحيح';
+                       } else if (error.code === 'auth/weak-password') {
+                           errorMessage = 'كلمة المرور ضعيفة جداً';
+                       }
+                       
+                       alert(errorMessage);
+                   });
+           });
+       }
+       
+       // مستمع حدث لزر إظهار/إخفاء كلمة المرور
+       const togglePasswordBtn = addUserModal.querySelector('.toggle-password');
+       if (togglePasswordBtn) {
+           togglePasswordBtn.addEventListener('click', function() {
+               const passwordInput = this.parentElement.querySelector('input');
+               if (passwordInput.type === 'password') {
+                   passwordInput.type = 'text';
+                   this.querySelector('i').classList.remove('fa-eye');
+                   this.querySelector('i').classList.add('fa-eye-slash');
+               } else {
+                   passwordInput.type = 'password';
+                   this.querySelector('i').classList.remove('fa-eye-slash');
+                   this.querySelector('i').classList.add('fa-eye');
+               }
+           });
+       }
+   }
+   
+   // إظهار النافذة
+   addUserModal.classList.add('active');
 }
 
 /**
- * تحديث قائمة المستخدمين
- */
-function refreshUsersList() {
-    // الحصول على قائمة المستخدمين
-    getUsers()
-        .then(users => {
-            // تحديث جدول المستخدمين
-            renderUsersTable(users);
-        })
-        .catch(error => {
-            console.error('خطأ في تحديث قائمة المستخدمين:', error);
-            showNotification('حدث خطأ أثناء تحديث قائمة المستخدمين', 'error');
-        });
-}
-
-/**
- * عرض جدول المستخدمين
- * @param {Array} users - قائمة المستخدمين
- */
-function renderUsersTable(users) {
-    const tableBody = document.querySelector('#users-table tbody');
-    if (!tableBody) return;
-    
-    // مسح محتوى الجدول
-    tableBody.innerHTML = '';
-    
-    if (!users || users.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="7" class="text-center">لا يوجد مستخدمين</td></tr>';
-        return;
-    }
-    
-    // ترتيب المستخدمين حسب تاريخ الإنشاء (الأحدث أولاً)
-    const sortedUsers = [...users].sort((a, b) => {
-        return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
-    });
-    
-    // إنشاء صفوف الجدول
-    sortedUsers.forEach(user => {
-        const row = document.createElement('tr');
-        
-        // تحديد لون الخلفية حسب نوع المستخدم
-        if (user.type === USER_TYPES.ADMIN) {
-            row.classList.add('admin-row');
-        } else if (user.type === USER_TYPES.MANAGER) {
-            row.classList.add('manager-row');
-        }
-        
-      
- // تنسيق التواريخ
- const createdAt = user.createdAt ? new Date(user.createdAt).toLocaleString() : '-';
- const lastLogin = user.lastLogin ? new Date(user.lastLogin).toLocaleString() : '-';
- 
- row.innerHTML = `
-     <td>${user.uid.substring(0, this.username)}: 10}</td>
-     <td>
-         <div class="user-info-cell">
-             <div class="user-avatar small">${user.fullName ? user.fullName.charAt(0).toUpperCase() : 'U'}</div>
-             <div>
-                 <div class="user-name">${user.fullName || 'مستخدم'}</div>
-                 <div class="user-role">${getUserTypeLabel(user.type)}</div>
-             </div>
-         </div>
-     </td>
-     <td>${user.email}</td>
-     <td><span class="badge badge-${getUserTypeBadgeClass(user.type)}">${getUserTypeLabel(user.type)}</span></td>
-     <td>${createdAt}</td>
-     <td>${lastLogin}</td>
-     <td>
-         <div class="actions-cell">
-             <button class="btn btn-sm btn-outline edit-user-btn" data-id="${user.uid}" title="تعديل">
-                 <i class="fas fa-edit"></i>
-             </button>
-             <button class="btn btn-sm btn-outline reset-password-btn" data-id="${user.uid}" data-email="${user.email}" title="إعادة تعيين كلمة المرور">
-                 <i class="fas fa-key"></i>
-             </button>
-             ${user.uid !== currentUser.uid ? `
-                 <button class="btn btn-sm btn-outline danger delete-user-btn" data-id="${user.uid}" title="حذف">
-                     <i class="fas fa-trash"></i>
-                 </button>
-             ` : ''}
-         </div>
-     </td>
- `;
- 
- tableBody.appendChild(row);
-});
-
-// إضافة مستمعي الأحداث للأزرار
-setupUserTableActions();
-}
-
-/**
-* إضافة مستمعي الأحداث لأزرار جدول المستخدمين
+* إنشاء مستخدم جديد
+* @param {string} email - البريد الإلكتروني
+* @param {string} password - كلمة المرور
+* @param {string} name - الاسم الكامل
+* @param {string} type - نوع المستخدم
+* @returns {Promise} - وعد بإنشاء المستخدم
 */
-function setupUserTableActions() {
-// أزرار تعديل المستخدم
-const editButtons = document.querySelectorAll('.edit-user-btn');
-editButtons.forEach(button => {
- button.addEventListener('click', function() {
-     const userId = this.getAttribute('data-id');
-     showEditUserModal(userId);
- });
-});
-
-// أزرار إعادة تعيين كلمة المرور
-const resetPasswordButtons = document.querySelectorAll('.reset-password-btn');
-resetPasswordButtons.forEach(button => {
- button.addEventListener('click', function() {
-     const userId = this.getAttribute('data-id');
-     const userEmail = this.getAttribute('data-email');
-     
-     if (confirm(`هل أنت متأكد من رغبتك في إعادة تعيين كلمة المرور للمستخدم ${userEmail}؟\nسيتم إرسال رابط إعادة تعيين كلمة المرور إلى البريد الإلكتروني.`)) {
-         resetPassword(userEmail)
-             .then(() => {
-                 showNotification(`تم إرسال رابط إعادة تعيين كلمة المرور إلى ${userEmail}`, 'success');
-             })
-             .catch(error => {
-                 console.error('خطأ في إعادة تعيين كلمة المرور:', error);
-                 
-                 let errorMessage = 'حدث خطأ أثناء إعادة تعيين كلمة المرور';
-                 
-                 if (error.code === 'auth/user-not-found') {
-                     errorMessage = 'البريد الإلكتروني غير مسجل';
-                 } else if (error.code === 'auth/invalid-email') {
-                     errorMessage = 'البريد الإلكتروني غير صالح';
-                 }
-                 
-                 showNotification(errorMessage, 'error');
-             });
-     }
- });
-});
-
-// أزرار حذف المستخدم
-const deleteButtons = document.querySelectorAll('.delete-user-btn');
-deleteButtons.forEach(button => {
- button.addEventListener('click', function() {
-     const userId = this.getAttribute('data-id');
-     
-     if (confirm('هل أنت متأكد من رغبتك في حذف هذا المستخدم؟')) {
-         deleteUser(userId)
-             .then(() => {
-                 showNotification('تم حذف المستخدم بنجاح', 'success');
-                 
-                 // تحديث قائمة المستخدمين
-                 refreshUsersList();
-             })
-             .catch(error => {
-                 console.error('خطأ في حذف المستخدم:', error);
-                 
-                 let errorMessage = 'حدث خطأ أثناء حذف المستخدم';
-                 
-                 if (error.message) {
-                     errorMessage = error.message;
-                 }
-                 
-                 showNotification(errorMessage, 'error');
-             });
-     }
- });
-});
+function createNewUser(email, password, name, type) {
+   return new Promise((resolve, reject) => {
+       // التحقق من وجود firebase
+       if (!window.firebase || !firebase.auth) {
+           reject(new Error('نظام المصادقة غير موجود'));
+           return;
+       }
+       
+       // إنشاء المستخدم باستخدام Firebase Admin SDK (هذا مجرد مثال)
+       // في الواقع، يجب أن يتم ذلك من خلال خادم backend لأسباب أمنية
+       // هنا نستخدم طريقة بديلة للعرض فقط
+       firebase.auth().createUserWithEmailAndPassword(email, password)
+           .then(userCredential => {
+               const user = userCredential.user;
+               
+               // تحديث الملف الشخصي
+               return user.updateProfile({
+                   displayName: name
+               }).then(() => user);
+           })
+           .then(user => {
+               // إضافة معلومات المستخدم في قاعدة البيانات
+               return firebase.database().ref(`users/${user.uid}/profile`).set({
+                   email: email,
+                   displayName: name,
+                   type: type,
+                   createdAt: new Date().toISOString(),
+                   emailVerified: false,
+                   permissions: getDefaultPermissions(type)
+               }).then(() => resolve(user));
+           })
+           .catch(error => {
+               console.error('خطأ في إنشاء المستخدم:', error);
+               reject(error);
+           });
+   });
 }
 
 /**
-* عرض نافذة تعديل المستخدم
+* عرض نافذة تعديل مستخدم
+* @param {Object} user - كائن المستخدم
+*/
+function showEditUserModal(user) {
+   if (!user) return;
+   
+   // التحقق من وجود النافذة
+   let editUserModal = document.getElementById('edit-user-modal');
+   
+   if (!editUserModal) {
+       // إنشاء عنصر النافذة
+       editUserModal = document.createElement('div');
+       editUserModal.id = 'edit-user-modal';
+       editUserModal.className = 'modal-overlay';
+       
+       editUserModal.innerHTML = `
+           <div class="modal">
+               <div class="modal-header">
+                   <h3 class="modal-title">تعديل بيانات المستخدم</h3>
+                   <button class="modal-close">&times;</button>
+               </div>
+               <div class="modal-body">
+                   <form id="edit-user-form">
+                       <input type="hidden" id="edit-user-id">
+                       
+                       <div class="form-group">
+                           <label class="form-label">البريد الإلكتروني</label>
+                           <input type="email" class="form-input" id="edit-user-email" readonly>
+                       </div>
+                       
+                       <div class="form-group">
+                           <label class="form-label">الاسم الكامل</label>
+                           <input type="text" class="form-input" id="edit-user-name" required>
+                       </div>
+                       
+                       <div class="form-group">
+                           <label class="form-label">نوع المستخدم</label>
+                           <select class="form-select" id="edit-user-type">
+                               <option value="user">مستخدم عادي</option>
+                               <option value="manager">مدير</option>
+                               <option value="admin">مسؤول النظام</option>
+                           </select>
+                       </div>
+                       
+                       <div class="form-group">
+                           <div class="form-check">
+                               <input type="checkbox" class="form-check-input" id="edit-user-verified">
+                               <label for="edit-user-verified">حساب موثق</label>
+                           </div>
+                       </div>
+                   </form>
+               </div>
+               <div class="modal-footer">
+                   <button class="btn btn-outline modal-close-btn">إلغاء</button>
+                   <button class="btn btn-primary" id="update-user-btn">حفظ التغييرات</button>
+               </div>
+           </div>
+       `;
+       
+       document.body.appendChild(editUserModal);
+       
+       // إضافة مستمعي الأحداث
+       setupBasicModalListeners(editUserModal);
+       
+       // مستمع حدث لزر تحديث المستخدم
+       const updateUserBtn = editUserModal.querySelector('#update-user-btn');
+       if (updateUserBtn) {
+           updateUserBtn.addEventListener('click', function() {
+               // الحصول على قيم الحقول
+               const userId = document.getElementById('edit-user-id').value;
+               const name = document.getElementById('edit-user-name').value;
+               const type = document.getElementById('edit-user-type').value;
+               const verified = document.getElementById('edit-user-verified').checked;
+               
+               // التحقق من البيانات
+               if (!userId || !name) {
+                   alert('يرجى إدخال جميع البيانات المطلوبة');
+                   return;
+               }
+               
+               // تحديث بيانات المستخدم
+               updateUser(userId, name, type, verified)
+                   .then(() => {
+                       alert('تم تحديث بيانات المستخدم بنجاح');
+                       editUserModal.classList.remove('active');
+                       
+                       // تحديث قائمة المستخدمين
+                       loadUsers();
+                   })
+                   .catch(error => {
+                       console.error('خطأ في تحديث بيانات المستخدم:', error);
+                       alert('حدث خطأ أثناء تحديث بيانات المستخدم');
+                   });
+           });
+       }
+   }
+   
+   // ملء البيانات
+   document.getElementById('edit-user-id').value = user.id;
+   document.getElementById('edit-user-email').value = user.email;
+   document.getElementById('edit-user-name').value = user.displayName || '';
+   document.getElementById('edit-user-type').value = user.type || 'user';
+   document.getElementById('edit-user-verified').checked = user.emailVerified || false;
+   
+   // إظهار النافذة
+   editUserModal.classList.add('active');
+}
+
+/**
+* تحديث بيانات المستخدم
 * @param {string} userId - معرف المستخدم
+* @param {string} name - الاسم الكامل
+* @param {string} type - نوع المستخدم
+* @param {boolean} verified - حالة التوثيق
+* @returns {Promise} - وعد بتحديث بيانات المستخدم
 */
-function showEditUserModal(userId) {
-// الحصول على بيانات المستخدم
-getUserData(userId)
- .then(userData => {
-     const modalContent = `
-         <div class="modal-header">
-             <h3 class="modal-title">تعديل المستخدم</h3>
-             <button class="modal-close">&times;</button>
-         </div>
-         <div class="modal-body">
-             <form id="edit-user-form">
-                 <input type="hidden" id="edit-user-id" value="${userId}">
-                 
-                 <div class="form-group">
-                     <label class="form-label">الاسم الكامل</label>
-                     <input type="text" class="form-input" id="edit-user-fullname" value="${userData.fullName || ''}" required>
-                 </div>
-                 
-                 <div class="form-group">
-                     <label class="form-label">البريد الإلكتروني</label>
-                     <input type="email" class="form-input" value="${userData.email}" readonly>
-                 </div>
-                 
-                 <div class="form-group">
-                     <label class="form-label">نوع المستخدم</label>
-                     <select class="form-select" id="edit-user-type" ${currentUser.type !== USER_TYPES.ADMIN && userData.type === USER_TYPES.ADMIN ? 'disabled' : ''}>
-                         <option value="user" ${userData.type === USER_TYPES.USER ? 'selected' : ''}>مستخدم عادي</option>
-                         <option value="manager" ${userData.type === USER_TYPES.MANAGER ? 'selected' : ''}>مدير</option>
-                         <option value="admin" ${userData.type === USER_TYPES.ADMIN ? 'selected' : ''}>مسؤول</option>
-                     </select>
-                     ${currentUser.type !== USER_TYPES.ADMIN && userData.type === USER_TYPES.ADMIN ? '<small class="text-danger">لا يمكنك تغيير نوع المستخدم المسؤول</small>' : ''}
-                 </div>
-             </form>
-         </div>
-         <div class="modal-footer">
-             <button class="btn btn-outline modal-close-btn">إلغاء</button>
-             <button class="btn btn-primary" id="update-user-btn">حفظ التغييرات</button>
-         </div>
-     `;
-     
-     showModal('edit-user-modal', modalContent, function(modal) {
-         // مستمع حدث تحديث المستخدم
-         const updateUserBtn = modal.querySelector('#update-user-btn');
-         if (updateUserBtn) {
-             updateUserBtn.addEventListener('click', function() {
-                 const fullnameInput = document.getElementById('edit-user-fullname');
-                 const userTypeSelect = document.getElementById('edit-user-type');
-                 
-                 if (!fullnameInput || !userTypeSelect) {
-                     showNotification('خطأ في النموذج: بعض الحقول المطلوبة غير موجودة', 'error');
-                     return;
-                 }
-                 
-                 const fullName = fullnameInput.value.trim();
-                 const userType = userTypeSelect.value;
-                 
-                 if (!fullName) {
-                     showNotification('يرجى إدخال الاسم الكامل', 'error');
-                     return;
-                 }
-                 
-                 // تغيير حالة الزر
-                 const originalText = this.textContent;
-                 this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
-                 this.disabled = true;
-                 
-                 // تحديث بيانات المستخدم
-                 const updatedData = {
-                     fullName: fullName,
-                     type: userType
-                 };
-                 
-                 updateUserData(userId, updatedData)
-                     .then(() => {
-                         showNotification('تم تحديث بيانات المستخدم بنجاح', 'success');
-                         
-                         // تحديث قائمة المستخدمين
-                         refreshUsersList();
-                         
-                         // إغلاق النافذة
-                         closeModal('edit-user-modal');
-                     })
-                     .catch(error => {
-                         console.error('خطأ في تحديث بيانات المستخدم:', error);
-                         
-                         let errorMessage = 'حدث خطأ أثناء تحديث بيانات المستخدم';
-                         
-                         if (error.message) {
-                             errorMessage = error.message;
-                         }
-                         
-                         showNotification(errorMessage, 'error');
-                     })
-                     .finally(() => {
-                         // إعادة حالة الزر
-                         this.textContent = originalText;
-                         this.disabled = false;
-                     });
-             });
-         }
-     });
- })
- .catch(error => {
-     console.error('خطأ في الحصول على بيانات المستخدم:', error);
-     showNotification('حدث خطأ أثناء الحصول على بيانات المستخدم', 'error');
- });
+function updateUser(userId, name, type, verified) {
+   return new Promise((resolve, reject) => {
+       // التحقق من وجود firebase
+       if (!window.firebase || !firebase.database) {
+           reject(new Error('قاعدة البيانات غير موجودة'));
+           return;
+       }
+       
+       // تحديث بيانات المستخدم
+       firebase.database().ref(`users/${userId}/profile`).update({
+           displayName: name,
+           type: type,
+           emailVerified: verified,
+           updatedAt: new Date().toISOString()
+       })
+       .then(() => {
+           // تحديث الصلاحيات إذا تغير نوع المستخدم
+           return firebase.database().ref(`users/${userId}/profile/permissions`).set(
+               getDefaultPermissions(type)
+           );
+       })
+       .then(() => {
+           resolve(userId);
+       })
+       .catch(error => {
+           console.error('خطأ في تحديث بيانات المستخدم:', error);
+           reject(error);
+       });
+   });
 }
 
 /**
-* تصفية المستخدمين حسب النوع
-* @param {string} filterType - نوع التصفية
+* عرض نافذة صلاحيات المستخدم
+* @param {Object} user - كائن المستخدم
 */
-function filterUsers(filterType) {
-const tableRows = document.querySelectorAll('#users-table tbody tr');
-
-tableRows.forEach(row => {
- const userTypeCell = row.querySelector('td:nth-child(4) .badge');
- 
- if (!userTypeCell) return;
- 
- if (filterType === 'all') {
-     row.style.display = '';
- } else {
-     const userType = userTypeCell.textContent.trim();
-     
-     if (filterType === 'admin' && getUserTypeLabel(USER_TYPES.ADMIN) === userType) {
-         row.style.display = '';
-     } else if (filterType === 'manager' && getUserTypeLabel(USER_TYPES.MANAGER) === userType) {
-         row.style.display = '';
-     } else if (filterType === 'user' && getUserTypeLabel(USER_TYPES.USER) === userType) {
-         row.style.display = '';
-     } else {
-         row.style.display = 'none';
-     }
- }
-});
+function showUserPermissionsModal(user) {
+   if (!user) return;
+   
+   // الحصول على صلاحيات المستخدم
+   getUserPermissions(user.id)
+       .then(permissions => {
+           // التحقق من وجود النافذة
+           let permissionsModal = document.getElementById('user-permissions-modal');
+           
+           if (!permissionsModal) {
+               // إنشاء عنصر النافذة
+               permissionsModal = document.createElement('div');
+               permissionsModal.id = 'user-permissions-modal';
+               permissionsModal.className = 'modal-overlay';
+               
+               permissionsModal.innerHTML = `
+                   <div class="modal">
+                       <div class="modal-header">
+                           <h3 class="modal-title">صلاحيات المستخدم</h3>
+                           <button class="modal-close">&times;</button>
+                       </div>
+                       <div class="modal-body">
+                           <div class="user-info-header">
+                               <h4>${user.displayName || 'المستخدم'}</h4>
+                               <p>${user.email}</p>
+                               <p><span class="badge ${user.type || 'user'}">${getUserTypeLabel(user.type || 'user')}</span></p>
+                           </div>
+                           
+                           <form id="user-permissions-form">
+                               <input type="hidden" id="permissions-user-id" value="${user.id}">
+                               
+                               <div class="permission-group">
+                                   <h5 class="permission-group-title">إدارة المستخدمين</h5>
+                                   <div class="permission-item">
+                                       <label for="perm-create-users">إنشاء مستخدمين</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-create-users" ${permissions.canCreateUsers ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                                   <div class="permission-item">
+                                       <label for="perm-delete-users">حذف مستخدمين</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-delete-users" ${permissions.canDeleteUsers ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                               
+                               <div class="permission-group">
+                                   <h5 class="permission-group-title">إدارة المستثمرين</h5>
+                                   <div class="permission-item">
+                                       <label for="perm-delete-investors">حذف مستثمرين</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-delete-investors" ${permissions.canDeleteInvestors ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                               
+                               <div class="permission-group">
+                                   <h5 class="permission-group-title">إدارة النظام</h5>
+                                   <div class="permission-item">
+                                       <label for="perm-manage-settings">إدارة الإعدادات</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-manage-settings" ${permissions.canManageSettings ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                                   <div class="permission-item">
+                                       <label for="perm-export-data">تصدير البيانات</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-export-data" ${permissions.canExportData ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                                   <div class="permission-item">
+                                       <label for="perm-import-data">استيراد البيانات</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-import-data" ${permissions.canImportData ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                                   <div class="permission-item">
+                                       <label for="perm-create-backup">إنشاء نسخة احتياطية</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-create-backup" ${permissions.canCreateBackup ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                                   <div class="permission-item">
+                                       <label for="perm-restore-backup">استعادة نسخة احتياطية</label>
+                                       <label class="toggle-switch">
+                                           <input type="checkbox" id="perm-restore-backup" ${permissions.canRestoreBackup ? 'checked' : ''}>
+                                           <span class="toggle-slider"></span>
+                                       </label>
+                                   </div>
+                               </div>
+                           </form>
+                       </div>
+                       <div class="modal-footer">
+                           <button class="btn btn-outline modal-close-btn">إلغاء</button>
+                           <button class="btn btn-primary" id="save-permissions-btn">حفظ الصلاحيات</button>
+                       </div>
+                   </div>
+               `;
+               
+               document.body.appendChild(permissionsModal);
+               
+               // إضافة مستمعي الأحداث
+               setupBasicModalListeners(permissionsModal);
+               
+               // مستمع حدث لزر حفظ الصلاحيات
+               const savePermissionsBtn = permissionsModal.querySelector('#save-permissions-btn');
+               if (savePermissionsBtn) {
+                   savePermissionsBtn.addEventListener('click', function() {
+                       // الحصول على قيم الصلاحيات
+                       const userId = document.getElementById('permissions-user-id').value;
+                       const updatedPermissions = {
+                           canCreateUsers: document.getElementById('perm-create-users').checked,
+                           canDeleteUsers: document.getElementById('perm-delete-users').checked,
+                           canDeleteInvestors: document.getElementById('perm-delete-investors').checked,
+                           canManageSettings: document.getElementById('perm-manage-settings').checked,
+                           canExportData: document.getElementById('perm-export-data').checked,
+                           canImportData: document.getElementById('perm-import-data').checked,
+                           canCreateBackup: document.getElementById('perm-create-backup').checked,
+                           canRestoreBackup: document.getElementById('perm-restore-backup').checked
+                       };
+                       
+                       // تحديث صلاحيات المستخدم
+                       updateUserPermissions(userId, updatedPermissions)
+                           .then(() => {
+                               alert('تم تحديث صلاحيات المستخدم بنجاح');
+                               permissionsModal.classList.remove('active');
+                           })
+                           .catch(error => {
+                               console.error('خطأ في تحديث صلاحيات المستخدم:', error);
+                               alert('حدث خطأ أثناء تحديث صلاحيات المستخدم');
+                           });
+                   });
+               }
+           } else {
+               // تحديث قيم الصلاحيات
+               document.getElementById('permissions-user-id').value = user.id;
+               document.getElementById('perm-create-users').checked = permissions.canCreateUsers || false;
+               document.getElementById('perm-delete-users').checked = permissions.canDeleteUsers || false;
+               document.getElementById('perm-delete-investors').checked = permissions.canDeleteInvestors || false;
+               document.getElementById('perm-manage-settings').checked = permissions.canManageSettings || false;
+               document.getElementById('perm-export-data').checked = permissions.canExportData || false;
+               document.getElementById('perm-import-data').checked = permissions.canImportData || false;
+               document.getElementById('perm-create-backup').checked = permissions.canCreateBackup || false;
+               document.getElementById('perm-restore-backup').checked = permissions.canRestoreBackup || false;
+           }
+           
+           // تحديث المعلومات
+           const userInfoHeader = permissionsModal.querySelector('.user-info-header');
+           if (userInfoHeader) {
+               userInfoHeader.innerHTML = `
+                   <h4>${user.displayName || 'المستخدم'}</h4>
+                   <p>${user.email}</p>
+                   <p><span class="badge ${user.type || 'user'}">${getUserTypeLabel(user.type || 'user')}</span></p>
+               `;
+           }
+           
+           // إظهار النافذة
+           permissionsModal.classList.add('active');
+       })
+       .catch(error => {
+           console.error('خطأ في الحصول على صلاحيات المستخدم:', error);
+           alert('حدث خطأ أثناء تحميل صلاحيات المستخدم');
+       });
 }
 
 /**
-* البحث في المستخدمين
-* @param {string} query - نص البحث
+* الحصول على صلاحيات المستخدم
+* @param {string} userId - معرف المستخدم
+* @returns {Promise} - وعد بصلاحيات المستخدم
 */
-function searchUsers(query) {
-query = query.trim().toLowerCase();
-
-if (!query) {
- // إذا كان البحث فارغًا، نعيد تحديث التصفية
- const activeFilter = document.querySelector('#users-page .btn-group .btn.active');
- if (activeFilter) {
-     const filterType = activeFilter.getAttribute('data-filter');
-     filterUsers(filterType);
- } else {
-     filterUsers('all');
- }
- return;
-}
-
-const tableRows = document.querySelectorAll('#users-table tbody tr');
-
-tableRows.forEach(row => {
- const fullNameCell = row.querySelector('td:nth-child(2) .user-name');
- const emailCell = row.querySelector('td:nth-child(3)');
- 
- if (!fullNameCell || !emailCell) return;
- 
- const fullName = fullNameCell.textContent.trim().toLowerCase();
- const email = emailCell.textContent.trim().toLowerCase();
- 
- if (fullName.includes(query) || email.includes(query)) {
-     row.style.display = '';
- } else {
-     row.style.display = 'none';
- }
-});
+function getUserPermissions(userId) {
+   return new Promise((resolve, reject) => {
+       // التحقق من وجود firebase
+       if (!window.firebase || !firebase.database) {
+           // إرجاع صلاحيات افتراضية للعرض
+           resolve(getDefaultPermissions('user'));
+           return;
+       }
+       
+       // الحصول على بيانات المستخدم
+       firebase.database().ref(`users/${userId}/profile`).once('value')
+           .then(snapshot => {
+               const userData = snapshot.val();
+               
+               if (userData && userData.permissions) {
+                   resolve(userData.permissions);
+               } else if (userData && userData.type) {
+                   // إذا لم تكن الصلاحيات موجودة، نستخدم الصلاحيات الافتراضية حسب نوع المستخدم
+                   resolve(getDefaultPermissions(userData.type));
+               } else {
+                   // إذا لم تكن البيانات موجودة، نستخدم الصلاحيات الافتراضية للمستخدم العادي
+                   resolve(getDefaultPermissions('user'));
+               }
+           })
+           .catch(error => {
+               console.error('خطأ في الحصول على صلاحيات المستخدم:', error);
+               reject(error);
+           });
+   });
 }
 
 /**
-* الحصول على فئة شارة نوع المستخدم
-* @param {string} userType - نوع المستخدم
-* @returns {string} - فئة الشارة
+* تحديث صلاحيات المستخدم
+* @param {string} userId - معرف المستخدم
+* @param {Object} permissions - كائن الصلاحيات
+* @returns {Promise} - وعد بتحديث صلاحيات المستخدم
 */
-function getUserTypeBadgeClass(userType) {
-switch (userType) {
- case USER_TYPES.ADMIN:
-     return 'danger';
- case USER_TYPES.MANAGER:
-     return 'warning';
- case USER_TYPES.USER:
-     return 'info';
- default:
-     return 'secondary';
-}
+function updateUserPermissions(userId, permissions) {
+   return new Promise((resolve, reject) => {
+       // التحقق من وجود firebase
+       if (!window.firebase || !firebase.database) {
+           reject(new Error('قاعدة البيانات غير موجودة'));
+           return;
+       }
+       
+       // تحديث صلاحيات المستخدم
+       firebase.database().ref(`users/${userId}/profile/permissions`).set(permissions)
+           .then(() => {
+               resolve(userId);
+           })
+           .catch(error => {
+               console.error('خطأ في تحديث صلاحيات المستخدم:', error);
+               reject(error);
+           });
+   });
 }
 
 /**
-* إضافة مستمع حدث للتحقق من تسجيل الدخول قبل تنفيذ أي عملية
+* تأكيد حذف المستخدم
+* @param {Object} user - كائن المستخدم
 */
-function setupAuthCheckInterceptor() {
-// إضافة مستمع حدث لكل النقرات
-document.addEventListener('click', function(e) {
- // إذا كان المستخدم مسجل الدخول، نسمح بالعملية
- if (currentUser) return;
- 
- // التحقق مما إذا كان النقر على عنصر فعال
- const actionElement = e.target.closest('button:not(.auth-related), a:not(.auth-related), .clickable:not(.auth-related)');
- 
- if (!actionElement) return;
- 
- // التحقق مما إذا كان العنصر داخل شاشة تسجيل الدخول
- if (e.target.closest('#auth-login-screen')) return;
- 
- // منع السلوك الافتراضي
- e.preventDefault();
- e.stopPropagation();
- 
- // عرض رسالة تنبيه
- showNotification('يجب تسجيل الدخول أولاً', 'warning');
- 
- // عرض شاشة تسجيل الدخول
- showLoginScreen();
-}, true);
+function confirmDeleteUser(user) {
+   if (!user) return;
+   
+   if (confirm(`هل أنت متأكد من رغبتك في حذف المستخدم "${user.displayName || user.email}"؟ لا يمكن التراجع عن هذا الإجراء.`)) {
+       deleteUser(user.id)
+           .then(() => {
+               alert('تم حذف المستخدم بنجاح');
+               
+               // تحديث قائمة المستخدمين
+               loadUsers();
+           })
+           .catch(error => {
+               console.error('خطأ في حذف المستخدم:', error);
+               alert('حدث خطأ أثناء حذف المستخدم');
+           });
+   }
 }
 
 /**
-* إضافة طبقة أمان للتحقق من تسجيل الدخول على مستوى الصفحة
+* حذف المستخدم
+* @param {string} userId - معرف المستخدم
+* @returns {Promise} - وعد بحذف المستخدم
 */
-function addSecurityLayer() {
-// التحقق من تسجيل الدخول عند تحميل الصفحة
-window.addEventListener('load', function() {
- initialize().then(() => {
-     // التحقق من وجود مستخدم حالي
-     if (!currentUser) {
-         // عرض شاشة تسجيل الدخول
-         showLoginScreen();
-     }
- });
-});
-
-// إضافة مستمع حدث لإعادة التحقق من تسجيل الدخول عند استعادة نشاط الصفحة
-document.addEventListener('visibilitychange', function() {
- if (document.visibilityState === 'visible') {
-     // إعادة التحقق من تسجيل الدخول
-     if (firebase.auth().currentUser) {
-         // المستخدم مازال مسجل الدخول
-     } else {
-         // المستخدم غير مسجل الدخول، نعرض شاشة تسجيل الدخول
-         showLoginScreen();
-     }
- }
-});
+function deleteUser(userId) {
+   return new Promise((resolve, reject) => {
+       // التحقق من وجود firebase
+       if (!window.firebase || !firebase.database) {
+           reject(new Error('قاعدة البيانات غير موجودة'));
+           return;
+       }
+       
+       // حذف بيانات المستخدم من قاعدة البيانات
+       firebase.database().ref(`users/${userId}`).remove()
+           .then(() => {
+               resolve(userId);
+           })
+           .catch(error => {
+               console.error('خطأ في حذف المستخدم:', error);
+               reject(error);
+           });
+   });
 }
-
-/**
-* تفعيل القفل التلقائي بعد فترة خمول
-* @param {number} idleTime - فترة الخمول بالدقائق
-*/
-function setupAutoLock(idleTime = 30) {
-let idleTimer;
-const idleTimeoutMs = idleTime * 60 * 1000; // تحويل الدقائق إلى مللي ثانية
-
-// إعادة تعيين عداد الخمول
-function resetIdleTimer() {
- clearTimeout(idleTimer);
- idleTimer = setTimeout(lockScreen, idleTimeoutMs);
-}
-
-// قفل الشاشة
-function lockScreen() {
- // التحقق من تسجيل الدخول
- if (currentUser) {
-     // عرض شاشة قفل الشاشة
-     showLockScreen();
- }
-}
-
-// إضافة مستمعي الأحداث لإعادة تعيين عداد الخمول
-['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'].forEach(event => {
- document.addEventListener(event, resetIdleTimer);
-});
-
-// تشغيل عداد الخمول
-resetIdleTimer();
-}
-
-
-/**
-* إضافة مستمعي الأحداث لشاشة القفل
-* @param {HTMLElement} lockScreen - عنصر شاشة القفل
-*/
-function setupLockScreenListeners(lockScreen) {
-// مستمع حدث إلغاء القفل
-const unlockForm = lockScreen.querySelector('#unlock-form');
-if (unlockForm) {
- unlockForm.addEventListener('submit', function(e) {
-     e.preventDefault();
-     
-     const passwordInput = document.getElementById('unlock-password');
-     
-     if (!passwordInput) {
-         showAuthNotification('خطأ في النموذج: حقل كلمة المرور غير موجود', 'error');
-         return;
-     }
-     
-     const password = passwordInput.value;
-     
-     if (!password) {
-         showAuthNotification('يرجى إدخال كلمة المرور', 'error');
-         return;
-     }
-     
-     // تغيير حالة الزر
-     const submitButton = this.querySelector('button[type="submit"]');
-     const originalText = submitButton.textContent;
-     submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
-     submitButton.disabled = true;
-     
-     // إعادة المصادقة
-     const credential = firebase.auth.EmailAuthProvider.credential(currentUser.email, password);
-     firebase.auth().currentUser.reauthenticateWithCredential(credential)
-         .then(() => {
-             // إخفاء شاشة القفل
-             lockScreen.style.display = 'none';
-             
-             // إظهار المحتوى الرئيسي
-             const appContent = document.querySelector('.layout');
-             if (appContent) {
-                 appContent.style.display = 'flex';
-             }
-             
-             // مسح حقل كلمة المرور
-             passwordInput.value = '';
-         })
-         .catch(error => {
-             console.error('خطأ في إلغاء القفل:', error);
-             
-             let errorMessage = 'كلمة المرور غير صحيحة';
-             
-             if (error.code === 'auth/wrong-password') {
-                 errorMessage = 'كلمة المرور غير صحيحة';
-             } else if (error.code === 'auth/too-many-requests') {
-                 errorMessage = 'تم تجاوز عدد المحاولات، يرجى المحاولة لاحقاً';
-             }
-             
-             showAuthNotification(errorMessage, 'error');
-         })
-         .finally(() => {
-             // إعادة حالة الزر
-             submitButton.textContent = originalText;
-             submitButton.disabled = false;
-         });
- });
-}
-
-// مستمع حدث تسجيل الخروج
-const logoutBtn = lockScreen.querySelector('#logout-from-lock');
-if (logoutBtn) {
- logoutBtn.addEventListener('click', function() {
-     logout()
-         .then(() => {
-             showNotification('تم تسجيل الخروج بنجاح', 'success');
-         })
-         .catch(error => {
-             console.error('خطأ في تسجيل الخروج:', error);
-             showNotification('حدث خطأ أثناء تسجيل الخروج', 'error');
-         });
- });
-}
-
-// مستمع حدث لزر إظهار/إخفاء كلمة المرور
-const togglePasswordBtn = lockScreen.querySelector('.toggle-password');
-if (togglePasswordBtn) {
- togglePasswordBtn.addEventListener('click', function() {
-     const passwordInput = this.parentElement.querySelector('input');
-     if (passwordInput.type === 'password') {
-         passwordInput.type = 'text';
-         this.querySelector('i').classList.remove('fa-eye');
-         this.querySelector('i').classList.add('fa-eye-slash');
-     } else {
-         passwordInput.type = 'password';
-         this.querySelector('i').classList.remove('fa-eye-slash');
-         this.querySelector('i').classList.add('fa-eye');
-     }
- });
-}
-}
-
-/**
-* إنشاء صفحة سجل الأحداث
-*/
-function createActivityLogPage() {
-// التحقق من وجود صفحة سجل الأحداث
-if (document.getElementById('logs-page')) {
- return;
-}
-
-// إنشاء صفحة سجل الأحداث
-const logsPage = document.createElement('div');
-logsPage.id = 'logs-page';
-logsPage.className = 'page admin-only';
-
-logsPage.innerHTML = `
- <div class="header">
-     <button class="toggle-sidebar">
-         <i class="fas fa-bars"></i>
-     </button>
-     <h1 class="page-title">سجل الأحداث</h1>
-     <div class="header-actions">
-         <div class="search-box">
-             <input class="search-input" placeholder="بحث في السجل..." type="text" />
-             <i class="fas fa-search search-icon"></i>
-         </div>
-         <div class="btn-group">
-             <button class="btn btn-outline active" data-filter="all">الكل</button>
-             <button class="btn btn-outline" data-filter="auth">المصادقة</button>
-             <button class="btn btn-outline" data-filter="investors">المستثمرين</button>
-             <button class="btn btn-outline" data-filter="transactions">العمليات</button>
-             <button class="btn btn-outline" data-filter="users">المستخدمين</button>
-         </div>
-     </div>
- </div>
- <div class="section">
-     <div class="table-container">
-         <table id="logs-table">
-             <thead>
-                 <tr>
-                     <th>التاريخ والوقت</th>
-                     <th>المستخدم</th>
-                     <th>الحدث</th>
-                     <th>النوع</th>
-                     <th>التفاصيل</th>
-                 </tr>
-             </thead>
-             <tbody>
-                 <!-- سيتم ملؤها ديناميكيًا -->
-             </tbody>
-         </table>
-     </div>
-     <div class="pagination">
-         <button class="btn btn-sm btn-outline prev-page-btn" disabled>
-             <i class="fas fa-chevron-right"></i>
-             <span>السابق</span>
-         </button>
-         <div class="page-info">
-             الصفحة <span id="current-page">1</span> من <span id="total-pages">1</span>
-         </div>
-         <button class="btn btn-sm btn-outline next-page-btn" disabled>
-             <span>التالي</span>
-             <i class="fas fa-chevron-left"></i>
-         </button>
-     </div>
- </div>
-`;
-
-// إضافة الصفحة للمحتوى الرئيسي
-const mainContent = document.querySelector('.main-content');
-if (mainContent) {
- mainContent.appendChild(logsPage);
-}
-
-// إضافة مستمعي الأحداث للصفحة
-setupActivityLogListeners();
-
-// إضافة رابط الصفحة إلى القائمة الجانبية
-addActivityLogNavLink();
-}
-
-/**
-* إضافة رابط سجل الأحداث إلى القائمة الجانبية
-*/
-function addActivityLogNavLink() {
-// التحقق من وجود رابط سجل الأحداث
-if (document.querySelector('a[data-page="logs"]')) {
- return;
-}
-
-// البحث عن قائمة الروابط
-const navList = document.querySelector('.nav-list');
-if (!navList) {
- return;
-}
-
-// إنشاء عنصر الرابط
-const navItem = document.createElement('li');
-navItem.className = 'nav-item admin-only';
-
-navItem.innerHTML = `
- <a class="nav-link" data-page="logs" href="#">
-     <div class="nav-icon">
-         <i class="fas fa-history"></i>
-     </div>
-     <span>سجل الأحداث</span>
- </a>
-`;
-
-// إضافة الرابط قبل رابط الإعدادات
-const settingsNavItem = document.querySelector('a[data-page="settings"]').parentNode;
-if (settingsNavItem) {
- navList.insertBefore(navItem, settingsNavItem);
-} else {
- navList.appendChild(navItem);
-}
-
-
-// إضافة مستمع حدث للرابط
-const navLink = navItem.querySelector('.nav-link');
-if (navLink) {
-    navLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        // إزالة الكلاس النشط من جميع الروابط
-        document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-        
-        // إضافة الكلاس النشط للرابط المحدد
-        this.classList.add('active');
-        
-        // إظهار صفحة سجل الأحداث
-        showPage('logs');
-        
-        // تحميل سجل الأحداث
-        loadActivityLogs();
-    });
-}
-}
-
-/**
- * إضافة مستمعي الأحداث لصفحة سجل الأحداث
- */
-function setupActivityLogListeners() {
-    // أزرار التصفية
-    const filterButtons = document.querySelectorAll('#logs-page .btn-group .btn');
-    if (filterButtons.length > 0) {
-        filterButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                // تحديث الزر النشط
-                filterButtons.forEach(btn => btn.classList.remove('active'));
-                this.classList.add('active');
-                
-                // تصفية السجلات
-                const filterType = this.getAttribute('data-filter');
-                filterLogs(filterType);
-            });
-        });
-    }
-    
-    // البحث في السجلات
-    const searchInput = document.querySelector('#logs-page .search-input');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            searchLogs(this.value);
-        });
-    }
-    
-    // أزرار الصفحات
-    const prevPageBtn = document.querySelector('#logs-page .prev-page-btn');
-    const nextPageBtn = document.querySelector('#logs-page .next-page-btn');
-    
-    if (prevPageBtn) {
-        prevPageBtn.addEventListener('click', function() {
-            if (this.disabled) return;
-            currentLogsPage--;
-            loadActivityLogs(currentLogsPage);
-        });
-    }
-    
-    if (nextPageBtn) {
-        nextPageBtn.addEventListener('click', function() {
-            if (this.disabled) return;
-            currentLogsPage++;
-            loadActivityLogs(currentLogsPage);
-        });
-    }
-}
-
-// متغيرات صفحات سجل الأحداث
-let currentLogsPage = 1;
-let logsPerPage = 20;
-let totalLogsPages = 1;
-let logsCache = {};
-
-/**
- * تحميل سجل الأحداث
- * @param {number} page - رقم الصفحة
- */
-function loadActivityLogs(page = 1) {
-    // التحقق من الصلاحيات
-    if (!currentUser || currentUser.type !== USER_TYPES.ADMIN) {
-        showNotification('ليس لديك صلاحية عرض سجل الأحداث', 'error');
-        return;
-    }
-    
-    // تحديث عنصر عرض الصفحة الحالية
-    const currentPageElement = document.getElementById('current-page');
-    if (currentPageElement) {
-        currentPageElement.textContent = page;
-    }
-    
-    // تحديث حالة أزرار الانتقال بين الصفحات
-    updatePaginationButtons(page);
-    
-    // جلب السجلات من ذاكرة التخزين المؤقت إذا كانت متاحة
-    if (logsCache[page]) {
-        renderLogs(logsCache[page]);
-        return;
-    }
-    
-    // عرض شاشة التحميل
-    const tableBody = document.querySelector('#logs-table tbody');
-    if (tableBody) {
-        tableBody.innerHTML = '<tr><td colspan="5" class="text-center"><div class="loader"></div></td></tr>';
-    }
-    
-    // تحميل السجلات من Firebase
-    Promise.all([
-        databaseRef.ref('system_logs/authentication').orderByChild('timestamp').limitToLast(logsPerPage * page).once('value'),
-        databaseRef.ref('system_logs/investors').orderByChild('timestamp').limitToLast(logsPerPage * page).once('value'),
-        databaseRef.ref('system_logs/transactions').orderByChild('timestamp').limitToLast(logsPerPage * page).once('value'),
-        databaseRef.ref('system_logs/users').orderByChild('timestamp').limitToLast(logsPerPage * page).once('value'),
-        databaseRef.ref('system_logs/system').orderByChild('timestamp').limitToLast(logsPerPage * page).once('value')
-    ])
-    .then(([authSnapshot, investorsSnapshot, transactionsSnapshot, usersSnapshot, systemSnapshot]) => {
-        // تجميع السجلات من جميع الأنواع
-        const logs = [];
-        
-        // إضافة السجلات مع تحديد النوع
-        addLogsFromSnapshot(logs, authSnapshot, 'auth');
-        addLogsFromSnapshot(logs, investorsSnapshot, 'investors');
-        addLogsFromSnapshot(logs, transactionsSnapshot, 'transactions');
-        addLogsFromSnapshot(logs, usersSnapshot, 'users');
-        addLogsFromSnapshot(logs, systemSnapshot, 'system');
-        
-        // ترتيب السجلات حسب التاريخ (الأحدث أولاً)
-        logs.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        
-        // تقسيم السجلات إلى صفحات
-        const totalLogs = logs.length;
-        totalLogsPages = Math.ceil(totalLogs / logsPerPage);
-        
-        // تحديث عنصر عرض إجمالي الصفحات
-        const totalPagesElement = document.getElementById('total-pages');
-        if (totalPagesElement) {
-            totalPagesElement.textContent = totalLogsPages;
-        }
-        
-        // تحديث حالة أزرار الانتقال بين الصفحات
-        updatePaginationButtons(page);
-        
-        // تحديد السجلات للصفحة الحالية
-        const startIndex = (page - 1) * logsPerPage;
-        const endIndex = Math.min(startIndex + logsPerPage, totalLogs);
-        const pageLogs = logs.slice(startIndex, endIndex);
-        
-        // تخزين السجلات في ذاكرة التخزين المؤقت
-        logsCache[page] = pageLogs;
-        
-        // عرض السجلات
-        renderLogs(pageLogs);
-    })
-    .catch(error => {
-        console.error('خطأ في تحميل سجل الأحداث:', error);
-        
-        const tableBody = document.querySelector('#logs-table tbody');
-        if (tableBody) {
-            tableBody.innerHTML = '<tr><td colspan="5" class="text-center">حدث خطأ أثناء تحميل السجلات</td></tr>';
-        }
-    });
-}
-
-/**
- * إضافة السجلات من Snapshot إلى المصفوفة
- * @param {Array} logs - مصفوفة السجلات
- * @param {Object} snapshot - الـ Snapshot من Firebase
- * @param {string} type - نوع السجلات
- */
-function addLogsFromSnapshot(logs, snapshot, type) {
-    if (!snapshot.exists()) return;
-    
-    snapshot.forEach(childSnapshot => {
-        const log = childSnapshot.val();
-        log.id = childSnapshot.key;
-        log.logType = type;
-        logs.push(log);
-    });
-}
-
-/**
- * تحديث حالة أزرار الانتقال بين الصفحات
- * @param {number} currentPage - الصفحة الحالية
- */
-function updatePaginationButtons(currentPage) {
-    const prevPageBtn = document.querySelector('#logs-page .prev-page-btn');
-    const nextPageBtn = document.querySelector('#logs-page .next-page-btn');
-    
-    if (prevPageBtn) {
-        prevPageBtn.disabled = currentPage <= 1;
-    }
-    
-    if (nextPageBtn) {
-        nextPageBtn.disabled = currentPage >= totalLogsPages;
-    }
-}
-
-/**
- * عرض السجلات في الجدول
- * @param {Array} logs - قائمة السجلات
- */
-function renderLogs(logs) {
-    const tableBody = document.querySelector('#logs-table tbody');
-    if (!tableBody) return;
-    
-    // مسح محتوى الجدول
-    tableBody.innerHTML = '';
-    
-    if (!logs || logs.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="5" class="text-center">لا توجد سجلات</td></tr>';
-        return;
-    }
-    
-    // إنشاء صفوف الجدول
-    logs.forEach(log => {
-        const row = document.createElement('tr');
-        
-        // تنسيق التاريخ
-        const timestamp = new Date(log.timestamp).toLocaleString();
-        
-        // تحديد نوع الحدث وتسميته
-        const eventType = getEventType(log.action);
-        const logTypeLabel = getLogTypeLabel(log.logType);
-        
-        // تحديد اسم المستخدم
-        const userName = log.userName || log.userEmail || 'مستخدم غير معروف';
-        
-        row.innerHTML = `
-            <td>${timestamp}</td>
-            <td>
-                <div class="user-info-cell">
-                    <div class="user-avatar small">${userName.charAt(0).toUpperCase()}</div>
-                    <span>${userName}</span>
-                </div>
-            </td>
-            <td>${eventType}</td>
-            <td><span class="badge badge-${getLogTypeBadgeClass(log.logType)}">${logTypeLabel}</span></td>
-            <td>
-                <button class="btn btn-sm btn-outline view-log-details" data-id="${log.id}" data-type="${log.logType}">
-                    <i class="fas fa-info-circle"></i>
-                    <span>التفاصيل</span>
-                </button>
-            </td>
-        `;
-        
-        tableBody.appendChild(row);
-    });
-    
-    // إضافة مستمعي الأحداث لأزرار عرض التفاصيل
-    setupLogDetailsButtons();
-}
-
-/**
- * إضافة مستمعي الأحداث لأزرار عرض تفاصيل السجل
- */
-function setupLogDetailsButtons() {
-    const detailButtons = document.querySelectorAll('.view-log-details');
-    detailButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const logId = this.getAttribute('data-id');
-            const logType = this.getAttribute('data-type');
-            
-            showLogDetailsModal(logId, logType);
-        });
-    });
-}
-
-/**
- * عرض نافذة تفاصيل السجل
- * @param {string} logId - معرف السجل
- * @param {string} logType - نوع السجل
- */
-function showLogDetailsModal(logId, logType) {
-    // جلب تفاصيل السجل من Firebase
-    databaseRef.ref(`system_logs/${logType}/${logId}`).once('value')
-        .then(snapshot => {
-            const log = snapshot.val();
-            
-            if (!log) {
-                showNotification('لم يتم العثور على تفاصيل السجل', 'error');
-                return;
-            }
-            
-            // تنسيق التاريخ
-            const timestamp = new Date(log.timestamp).toLocaleString();
-            
-            // تحديد نوع الحدث وتسميته
-            const eventType = getEventType(log.action);
-            const logTypeLabel = getLogTypeLabel(log.logType || logType);
-            
-            // تحديد اسم المستخدم
-            const userName = log.userName || log.userEmail || 'مستخدم غير معروف';
-            
-            // تحديد تفاصيل إضافية
-            let additionalDetails = '';
-            
-            if (log.details) {
-                additionalDetails = `
-                    <div class="log-details-section">
-                        <h4>تفاصيل إضافية</h4>
-                        <pre>${JSON.stringify(log.details, null, 2)}</pre>
-                    </div>
-                `;
-            }
-            
-            // إنشاء محتوى النافذة
-            const modalContent = `
-                <div class="modal-header">
-                    <h3 class="modal-title">تفاصيل السجل</h3>
-                    <button class="modal-close">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="log-details">
-                        <div class="log-header">
-                            <div class="log-badge ${getLogTypeBadgeClass(logType)}">${logTypeLabel}</div>
-                            <div class="log-timestamp">${timestamp}</div>
-                        </div>
-                        
-                        <div class="log-details-section">
-                            <h4>المستخدم</h4>
-                            <div class="user-info-detail">
-                                <div class="user-avatar medium">${userName.charAt(0).toUpperCase()}</div>
-                                <div>
-                                    <div class="user-name">${userName}</div>
-                                    <div class="user-email">${log.userEmail || ''}</div>
-                                    <div class="user-type">${getUserTypeLabel(log.userType || '')}</div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="log-details-section">
-                            <h4>الحدث</h4>
-                            <p>${eventType}</p>
-                            ${log.entityId ? `<p>المعرف: ${log.entityId}</p>` : ''}
-                            ${log.entityType ? `<p>النوع: ${log.entityType}</p>` : ''}
-                        </div>
-                        
-                        ${additionalDetails}
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-outline modal-close-btn">إغلاق</button>
-                </div>
-            `;
-            
-            showModal('log-details-modal', modalContent);
-        })
-        .catch(error => {
-            console.error('خطأ في جلب تفاصيل السجل:', error);
-            showNotification('حدث خطأ أثناء جلب تفاصيل السجل', 'error');
-        });
-}
-
-/**
- * تصفية السجلات حسب النوع
- * @param {string} filterType - نوع التصفية
- */
-function filterLogs(filterType) {
-    const tableRows = document.querySelectorAll('#logs-table tbody tr');
-    
-    tableRows.forEach(row => {
-        const logTypeCell = row.querySelector('td:nth-child(4) .badge');
-        
-        if (!logTypeCell) return;
-        
-        if (filterType === 'all') {
-            row.style.display = '';
-        } else {
-            const logType = getLogTypeFromLabel(logTypeCell.textContent.trim());
-            
-            if (logType === filterType) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        }
-    });
-}
-
-/**
- * البحث في السجلات
- * @param {string} query - نص البحث
- */
-function searchLogs(query) {
-    query = query.trim().toLowerCase();
-    
-    if (!query) {
-        // إذا كان البحث فارغًا، نعيد تحديث التصفية
-        const activeFilter = document.querySelector('#logs-page .btn-group .btn.active');
-        if (activeFilter) {
-            const filterType = activeFilter.getAttribute('data-filter');
-            filterLogs(filterType);
-        } else {
-            filterLogs('all');
-        }
-        return;
-    }
-    
-    const tableRows = document.querySelectorAll('#logs-table tbody tr');
-    
-    tableRows.forEach(row => {
-        const timestamp = row.querySelector('td:nth-child(1)').textContent.trim().toLowerCase();
-        const userName = row.querySelector('td:nth-child(2)').textContent.trim().toLowerCase();
-        const eventType = row.querySelector('td:nth-child(3)').textContent.trim().toLowerCase();
-        const logType = row.querySelector('td:nth-child(4)').textContent.trim().toLowerCase();
-        
-        if (timestamp.includes(query) || userName.includes(query) || eventType.includes(query) || logType.includes(query)) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-}
-
-/**
- * الحصول على تسمية نوع الحدث
- * @param {string} action - نوع الحدث
- * @returns {string} - تسمية نوع الحدث
- */
-function getEventType(action) {
-    switch (action) {
-        // أحداث المصادقة
-        case 'user_login':
-            return 'تسجيل دخول';
-        case 'user_logout':
-            return 'تسجيل خروج';
-        case 'password_changed':
-            return 'تغيير كلمة المرور';
-        case 'password_reset_requested':
-            return 'طلب إعادة تعيين كلمة المرور';
-            
-        // أحداث المستخدمين
-        case 'user_created':
-            return 'إنشاء مستخدم جديد';
-        case 'user_updated':
-            return 'تحديث بيانات مستخدم';
-        case 'user_deleted':
-            return 'حذف مستخدم';
-            
-        // أحداث المستثمرين
-        case 'investor_created':
-            return 'إضافة مستثمر جديد';
-        case 'investor_updated':
-            return 'تحديث بيانات مستثمر';
-        case 'investor_deleted':
-            return 'حذف مستثمر';
-            
-        // أحداث العمليات
-        case 'transaction_created':
-            return 'إضافة عملية جديدة';
-        case 'deposit_added':
-            return 'إضافة إيداع';
-        case 'withdrawal_added':
-            return 'إضافة سحب';
-        case 'profit_paid':
-            return 'دفع أرباح';
-            
-        // أحداث النظام
-        case 'admin_code_changed':
-            return 'تغيير رمز المسؤول';
-        case 'settings_updated':
-            return 'تحديث إعدادات النظام';
-        case 'backup_created':
-            return 'إنشاء نسخة احتياطية';
-        case 'backup_restored':
-            return 'استعادة نسخة احتياطية';
-            
-        default:
-            return action || 'حدث غير معروف';
-    }
-}
-
-/**
- * الحصول على تسمية نوع السجل
- * @param {string} logType - نوع السجل
- * @returns {string} - تسمية نوع السجل
- */
-function getLogTypeLabel(logType) {
-    switch (logType) {
-        case 'auth':
-            return 'المصادقة';
-        case 'investors':
-            return 'المستثمرين';
-        case 'transactions':
-            return 'العمليات';
-        case 'users':
-            return 'المستخدمين';
-        case 'system':
-            return 'النظام';
-        default:
-            return 'غير معروف';
-    }
-}
-
-/**
- * الحصول على نوع السجل من التسمية
- * @param {string} label - تسمية نوع السجل
- * @returns {string} - نوع السجل
- */
-function getLogTypeFromLabel(label) {
-    switch (label) {
-        case 'المصادقة':
-            return 'auth';
-        case 'المستثمرين':
-            return 'investors';
-        case 'العمليات':
-            return 'transactions';
-        case 'المستخدمين':
-            return 'users';
-        case 'النظام':
-            return 'system';
-        default:
-            return '';
-    }
-}
-
-/**
- * الحصول على فئة شارة نوع السجل
- * @param {string} logType - نوع السجل
- * @returns {string} - فئة الشارة
- */
-function getLogTypeBadgeClass(logType) {
-    switch (logType) {
-        case 'auth':
-            return 'info';
-        case 'investors':
-            return 'success';
-        case 'transactions':
-            return 'primary';
-        case 'users':
-            return 'warning';
-        case 'system':
-            return 'danger';
-        default:
-            return 'secondary';
-    }
-}
-
-/**
- * إعداد المصادقة والأمان للنظام
- */
-function setupSecuritySystem() {
-    // تهيئة نظام المصادقة
-    initialize()
-        .then(initialized => {
-            console.log('تهيئة نظام المصادقة:', initialized ? 'تمت بنجاح' : 'لم تكتمل');
-            
-            if (initialized) {
-                // إضافة أنماط CSS
-                addAuthStyles();
-                
-                // إنشاء صفحة إدارة المستخدمين
-                createUserManagementPage();
-                
-                // إنشاء صفحة سجل الأحداث
-                createActivityLogPage();
-                
-                // تعديل دوال النظام
-                modifySystemFunctions();
-                
-                // تعديل دالة تحميل البيانات
-                modifyLoadDataFunction();
-                
-                // إضافة طبقة أمان
-                addSecurityLayer();
-                
-                // تفعيل القفل التلقائي
-                setupAutoLock();
-                
-                // إضافة مستمع حدث للتحقق من تسجيل الدخول
-                setupAuthCheckInterceptor();
-                
-                console.log('تم إعداد نظام الأمان بنجاح');
-            }
-        })
-        .catch(error => {
-            console.error('خطأ في إعداد نظام الأمان:', error);
-        });
-}
-
-
-// تصدير واجهة برمجة التطبيق
-const AuthSystem = {
-    initialize,
-    login,
-    signup,
-    logout,
-    getUserData,
-    updateUserData,
-    deleteUser,
-    getUsers,
-    changePassword,
-    resetPassword,
-    checkIfFirstUser,
-    logAction,
-    attachUserInfo,
-    getCurrentUser: () => currentUser,
-    getPermissions: () => currentUser ? currentUser.permissions : null,
-    isAdmin: () => currentUser && currentUser.type === USER_TYPES.ADMIN,
-    isManager: () => currentUser && (currentUser.type === USER_TYPES.ADMIN || currentUser.type === USER_TYPES.MANAGER),
-    hasPermission: (permission) => currentUser && currentUser.permissions && currentUser.permissions[permission],
-    USER_TYPES,
-    PERMISSIONS
-};
-
-// إعداد النظام تلقائيًا عند تحميل الصفحة
-window.addEventListener('load', setupSecuritySystem);
-
-
