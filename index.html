@@ -5,31 +5,11 @@
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <meta name="mobile-web-app-capable" content="yes">
-
     <title>نظام الاستثمار المتكامل</title>
-    <!-- PWA مانيفست -->
-    <link rel="manifest" href="manifest.json" />
-    <!-- أنماط ملف المستخدم المحسن -->
- </script>
-
-    <!-- CSS Styles -->
-    <link href="style.css" rel="stylesheet" />
-    <link href="auth-system-styles.css"
-    <link href="security-styles.css"
-
-<link rel="stylesheet" href="user-profile-additional-styles.css" />
-
-    <link rel="icon" type="image/png" href="icon.png" />
-    <link rel="apple-touch-icon" href="icon.png" />
-    <!-- لون الثيم للهاتف المحمول -->
-    <meta name="theme-color" content="#3b82f6" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-    <!-- وصف التطبيق -->
-    <meta name="description" content="نظام متكامل لإدارة الاستثمارات والمستثمرين" />
-    
     <!-- Font Awesome for icons -->
+
+    <link rel="icon" type="image/png" href="assets/icon.png" />
+
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
     <!-- Google Fonts - Tajawal -->
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&amp;display=swap"
@@ -42,44 +22,47 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js"></script>
-    
+
     <script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDGpAHia_wEmrhnmYjrPf1n1TrAzwEMiAI",
-        authDomain: "messageemeapp.firebaseapp.com",
-        databaseURL: "https://messageemeapp-default-rtdb.firebaseio.com",
-        projectId: "messageemeapp",
-        storageBucket: "messageemeapp.appspot.com",
-        messagingSenderId: "255034474844",
-        appId: "1:255034474844:web:5e3b7a6bc4b2fb94cc4199"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyDGpAHia_wEmrhnmYjrPf1n1TrAzwEMiAI",
+            authDomain: "messageemeapp.firebaseapp.com",
+            databaseURL: "https://messageemeapp-default-rtdb.firebaseio.com",
+            projectId: "messageemeapp",
+            storageBucket: "messageemeapp.appspot.com",
+            messagingSenderId: "255034474844",
+            appId: "1:255034474844:web:5e3b7a6bc4b2fb94cc4199"
+        };
     </script>
 
     <!-- CSS Styles -->
     <link href="style.css" rel="stylesheet" />
-    <link href="auth-system-styles.css" rel="stylesheet" />
+
+    <link href="user-profile-enhanced-styles.css" rel="stylesheet" />
+
+
 </head>
 <div class="custom-titlebar">
     <div class="window-drag-area">
-      <img src="assets/icon.png" alt="Logo" />
-      <span>نظام الاستثمار المتكامل</span>
-      <div id="clock" class="digital-clock">00:00:00</div>
-<div id="currency-widget" class="currency-widget">
-  <strong>USD / IQD:</strong> <span id="usd-iqd">جارٍ التحميل...</span>
-</div>
+        <img src="assets/icon.png" alt="Logo" />
+        <span>نظام الاستثمار المتكامل</span>
+        <div id="clock" class="digital-clock">00:00:00</div>
+        <div id="currency-widget" class="currency-widget">
+            <strong>USD / IQD:</strong> <span id="usd-iqd">جارٍ التحميل...</span>
+        </div>
 
     </div>
     <div class="window-controls">
-      <button class="btn-control" id="minimize-btn">—</button>
-      <button class="btn-control" id="maximize-btn">☐</button>
-      <button class="btn-control close" id="close-btn">✕</button>
+        <button class="btn-control" id="minimize-btn">—</button>
+        <button class="btn-control" id="maximize-btn">☐</button>
+        <button class="btn-control close" id="close-btn">✕</button>
     </div>
-  </div>
-  
+</div>
+
 <body>
     <!-- Sidebar -->
     <div class="layout">
-        
+
         <div class="sidebar">
             <div class="sidebar-header">
                 <div class="logo">
@@ -88,7 +71,6 @@
                     </div>
                     <span>نظام الاستثمار</span>
                 </div>
-            </div
             </div>
             <nav>
                 <ul class="nav-list">
@@ -157,9 +139,52 @@
                             <input class="search-input" placeholder="بحث..." type="text" />
                             <i class="fas fa-search search-icon"></i>
                         </div>
+                        <!-- هذا نموذج لما يجب تعديله في ملف index.html -->
+
+
+                        <!-- بعد التعديل - مع إضافة الشارة (badge) -->
                         <button class="btn btn-outline" id="notification-btn">
                             <i class="fas fa-bell"></i>
+                            <span class="notification-badge" id="notification-badge">0</span>
                         </button>
+
+                        <!-- 2. إضافة عنصر نافذة التنبيهات في نهاية الصفحة قبل قسم العناصر البرمجية -->
+                        <div class="modal-overlay" id="notifications-modal">
+                            <div class="modal animate__animated animate__fadeInUp">
+                                <div class="modal-header">
+                                    <h3 class="modal-title">التنبيهات</h3>
+                                    <button class="modal-close">×</button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="tabs">
+                                        <div class="tab-buttons">
+                                            <button class="tab-btn active" data-tab="due-profits">أرباح مستحقة <span
+                                                    id="due-profits-count" class="tab-badge">0</span></button>
+                                            <button class="tab-btn" data-tab="all-notifications">كافة التنبيهات <span
+                                                    id="all-notifications-count" class="tab-badge">0</span></button>
+                                        </div>
+                                        <div class="tab-content active" id="due-profits-tab">
+                                            <div id="due-profits-list" class="notifications-list">
+                                                <!-- سيتم ملؤه ديناميكياً -->
+                                            </div>
+                                        </div>
+                                        <div class="tab-content" id="all-notifications-tab">
+                                            <div id="all-notifications-list" class="notifications-list">
+                                                <!-- سيتم ملؤه ديناميكياً -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-outline modal-close-btn">إغلاق</button>
+                                    <button class="btn btn-primary" id="mark-all-read-btn">
+                                        <i class="fas fa-check-double"></i>
+                                        <span>تعيين الكل كمقروء</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
                 <!-- Dashboard Cards -->
@@ -887,142 +912,109 @@
             </div>
         </div>
     </div>
-    <!-- Notifications -->
-    <div class="notification" id="success-notification">
-        <div class="notification-icon success">
-            <i class="fas fa-check"></i>
-        </div>
-        <div class="notification-content">
-            <div class="notification-title">تمت العملية بنجاح</div>
-            <div class="notification-message">تم حفظ البيانات بنجاح.</div>
-        </div>
-        <div class="notification-close">
-            <i class="fas fa-times"></i>
+
+
+    <div class="modal-overlay" id="edit-transaction-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">تعديل العملية</h3>
+                <button class="modal-close">×</button>
+            </div>
+            <div class="modal-body">
+                <form id="edit-transaction-form">
+                    <input type="hidden" id="edit-transaction-id" />
+                    <div class="form-group">
+                        <label>التاريخ</label>
+                        <input type="date" id="edit-transaction-date" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>المبلغ</label>
+                        <input type="number" id="edit-transaction-amount" class="form-input" />
+                    </div>
+                    <div class="form-group">
+                        <label>ملاحظات</label>
+                        <input type="text" id="edit-transaction-notes" class="form-input" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">حفظ التغييرات</button>
+                </form>
+            </div>
         </div>
     </div>
-       <script>
+
+
+
+    <script>
         async function fetchExchangeRate() {
-          const display = document.getElementById("usd-iqd");
-          try {
-            const response = await fetch("https://api.frankfurter.app/latest?from=USD&to=IQD");
-            const data = await response.json();
-            
-            if (data && data.rates && data.rates.IQD) {
-              const rate = data.rates.IQD.toFixed(2);
-              display.textContent = `${rate} دينار`;
-            } else {
-              display.textContent = "غير متوفر";
+            const display = document.getElementById("usd-iqd");
+            try {
+                const response = await fetch("https://api.frankfurter.app/latest?from=USD&to=IQD");
+                const data = await response.json();
+
+                if (data && data.rates && data.rates.IQD) {
+                    const rate = data.rates.IQD.toFixed(2);
+                    display.textContent = `${rate} دينار`;
+                } else {
+                    display.textContent = "غير متوفر";
+                }
+            } catch (error) {
+                console.error("فشل في جلب سعر الصرف:", error);
+                display.textContent = "تعذر الاتصال";
             }
-          } catch (error) {
-            console.error("فشل في جلب سعر الصرف:", error);
-            display.textContent = "تعذر الاتصال";
-          }
         }
-      
+
         fetchExchangeRate();
         setInterval(fetchExchangeRate, 60000); // كل دقيقة
-      </script>
-      
-      <script>
+    </script>
+
+    <script>
         function updateClock() {
-          const now = new Date();
-          const hours = now.getHours().toString().padStart(2, '0');
-          const minutes = now.getMinutes().toString().padStart(2, '0');
-          const seconds = now.getSeconds().toString().padStart(2, '0');
-          document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+            const now = new Date();
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
         }
         setInterval(updateClock, 1000);
         updateClock(); // أول تحديث عند التحميل
-      </script>
-      
-   
+    </script>
+
 
     <!-- Scripts -->
     <!-- ملفات الأصلية (غير أساسية للتشغيل الجديد) -->
-   
-    
-     <!-- <script src="notifications.js"></script>
+    <script src="database.js"></script>
+    <script src="firebase-sync.js"></script>
+    <!-- <script src="notifications.js"></script>
     <script src="sidebar.js"></script>
     <script src="investors.js"></script>
     <script src="transactions.js"></script>
     <script src="profits.js"></script>
     <script src="reports.js"></script>
-    <script src="settings.js"></script>
-    <script src="main.js"></script>
-    <script src="app.js"></script> -->
+    <script src="user-management.js"></script>
+    <script src="user-profile-integration-enhanced.js"></script>
+    <script src="Installation Script for System Fixes.js"></script> -->
     <!-- الملف المعدل الجديد - يجب التأكد من وجود هذا الملف -->
- <!--  -->
-
-<script src="firebase-sync.js"></script>
-
-<!-- رابعاً: ملفات التطبيق الأصلية -->
-<script src="database.js"></script>
-<script src="app-fixed.js"></script>
-<script src="currency-formatter-loader.js"></script>
-<script src="currency-formatter.js"></script>
-<script src="sidebar.js"></script>
-<script src="notifications-system.js"></script>
-<script src="notifications-integration.js"></script>
-<script src="notifications-fix-v2.js"></script>
-
-<!-- <script src="user-profile.js"></script>
-<script src="user-profile-integration.js"></script>
-<script src="user-profile-install.js"></script>
-   <script src="auth-system.js"></script>
-   نظام ملف المستخدم المحسن -->
-
+    <script src="app-fixed.js"></script>
+    <script src="currency-formatter-loader.js"></script>
+    <script src="currency-formatter.js"></script>
+    <script src="sidebar.js"></script>
+    <!-- 3. إضافة استدعاء ملفات JavaScript في نهاية الصفحة -->
+    <script src="notifications-system.js"></script>
+    <script src="notifications-integration.js"></script>
+    <script src="notifications-fix-v2.js"></script>
    
-   
+    <script src="auth-guard.js"></script>
+    <script src="navgation-integration-fix.js"></script>
+    <script src="Installation Script for System Fixes.js"></script>
 
 
-<!--  <script src="auth-integration.js"></script>
-<script src="auth-system.js"></script>
-<script src="au2th-system.js"></script>
-<script src="aut2h-integration.js"></script>-->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('تم تحميل الصفحة بنجاح');
+            // سيتم تهيئة التطبيق تلقائيًا عبر الملف الجديد
+        });
 
 
-
-
-<script>
-  async function fetchExchangeRate() {
-    const display = document.getElementById("usd-iqd");
-    try {
-      // استخدام API بديل أو قيمة ثابتة كبديل في حالة فشل الاتصال
-      display.textContent = "1490 دينار"; // قيمة تقريبية ثابتة كبديل
-      
-      // محاولة الحصول على سعر الصرف الفعلي
-      try {
-        const response = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
-        const data = await response.json();
-        
-        if (data && data.rates && data.rates.IQD) {
-          const rate = data.rates.IQD.toFixed(2);
-          display.textContent = `${rate} دينار`;
-        }
-      } catch (networkError) {
-        console.log("تعذر الاتصال بخدمة سعر الصرف، استخدام القيمة الافتراضية");
-      }
-    } catch (error) {
-      console.log("فشل في عرض سعر الصرف:", error);
-      display.textContent = "تعذر الاتصال";
-    }
-  }
-
-  fetchExchangeRate();
-  setInterval(fetchExchangeRate, 3600000); // تحديث كل ساعة بدلاً من كل دقيقة
-</script>
-
-<script>
-function updateClock() {
-  const now = new Date();
-  const hours = now.getHours().toString().padStart(2, '0');
-  const minutes = now.getMinutes().toString().padStart(2, '0');
-  const seconds = now.getSeconds().toString().padStart(2, '0');
-  document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
-}
-setInterval(updateClock, 1000);
-updateClock(); // أول تحديث عند التحميل
-</script>
+    </script>
 </body>
 
 </html>

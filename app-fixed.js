@@ -1686,6 +1686,12 @@ function showInvestorDetails(investorId) {
                 <i class="fas fa-trash"></i> حذف المستثمر
             </button>
         </div>
+        <td>
+  <button class="btn btn-sm btn-outline edit-transaction" data-id="${txn.id}">
+    <i class="fas fa-edit"></i>
+  </button>
+</td>
+
     `;
     
     // عرض النافذة المنبثقة
@@ -1948,6 +1954,30 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log("3. قم بتنزيل نسخة احتياطية من البيانات بعد التصحيح");
 })();
 
+
+
+document.querySelectorAll('input[type="date"]').forEach(input => {
+    input.addEventListener('change', function () {
+        const selected = new Date(this.value);
+        const today = new Date();
+        const days = Math.floor((today - selected) / (1000 * 60 * 60 * 24));
+        const message = isNaN(days) ? '' : `(${days} يوم منذ هذا التاريخ)`;
+
+        const msgBox = this.parentElement.querySelector('.days-since-text');
+        if (msgBox) {
+            msgBox.textContent = message;
+        } else {
+            const span = document.createElement('small');
+            span.className = 'days-since-text';
+            span.style.color = '#888';
+            span.textContent = message;
+            this.parentElement.appendChild(span);
+        }
+    });
+});
+
+
+
 /**
  * إصلاح للتأكد من عدم استخدام خصائص undefined أثناء حساب الفائدة
  */
@@ -2047,7 +2077,7 @@ function initializeDefaultData() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('تهيئة التطبيق...');
     loadData();
-    initializeDefaultData(); // استدعاء الدالة بعد تحميل البيانات
+   
     initNavigation();
     initEventListeners();
     setCurrentDateAsDefault();
@@ -2358,13 +2388,16 @@ function renderRecentTransactions() {
                 statusClass = 'info';
                 break;
         }
-        
+
+        const daysAgo = Math.floor((new Date() - new Date(tr.date)) / (1000 * 60 * 60 * 24));
+        const daysText = daysAgo === 0 ? 'اليوم' : `${daysAgo} يومًا مضت`;
+
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${tr.id}</td>
             <td>${tr.investorName}</td>
             <td>${tr.type}</td>
-            <td>${tr.date}</td>
+            <td>${tr.date}<br><small>${daysText}</small></td>
             <td>${tr.amount.toLocaleString()} ${settings.currency}</td>
             <td><span class="status status-${statusClass}">مكتمل</span></td>
             <td>
@@ -2665,6 +2698,7 @@ function showInvestorDetails(investorId) {
                             <th>التاريخ</th>
                             <th>النوع</th>
                             <th>المبلغ</th>
+                            <th>الإجراء</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -2674,15 +2708,20 @@ function showInvestorDetails(investorId) {
                                     <td>${tr.date}</td>
                                     <td>${tr.type}</td>
                                     <td>${tr.amount.toLocaleString()} ${settings.currency}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-outline edit-transaction" data-id="${tr.id}">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                    </td>
                                 </tr>
                             `).join('') : 
-                            '<tr><td colspan="3">لا توجد عمليات</td></tr>'
+                            '<tr><td colspan="4">لا توجد عمليات</td></tr>'
                         }
                     </tbody>
                 </table>
             </div>
         </div>
-        
+
         <div class="investor-actions-big">
             <button class="btn btn-primary" onclick="editInvestor('${investorId}')">
                 <i class="fas fa-edit"></i> تعديل البيانات
@@ -2698,6 +2737,14 @@ function showInvestorDetails(investorId) {
     
     // عرض النافذة المنبثقة
     showModal(`تفاصيل المستثمر - ${investor.name}`, content);
+
+    // إضافة مستمعي الأحداث لأزرار تعديل العمليات
+    document.querySelectorAll('.edit-transaction').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const txnId = this.getAttribute('data-id');
+            openEditTransactionModal(txnId);
+        });
+    });
 }
 
 // تعديل بيانات المستثمر
@@ -2750,6 +2797,17 @@ function editInvestor(investorId) {
     }
 }
 
+function openEditTransactionModal(txnId) {
+    const txn = transactions.find(t => t.id === txnId);
+    if (!txn) return;
+
+    document.getElementById('edit-transaction-id').value = txn.id;
+    document.getElementById('edit-transaction-date').value = txn.date;
+    document.getElementById('edit-transaction-amount').value = txn.amount;
+    document.getElementById('edit-transaction-notes').value = txn.notes || '';
+
+    openModal('edit-transaction-modal');
+}
 
 
 // تحديث بيانات المستثمر
@@ -5191,69 +5249,7 @@ function setupSpeechGrammar(SpeechGrammarList) {
     }
 }
 
-/**
- * إضافة زر المساعدة للتعرف على الصوت
- */
-function addSpeechRecognitionHelpButton() {
-    // التحقق من وجود الزر مسبقًا
-    if (document.querySelector('.speech-help-btn')) {
-        return;
-    }
-    
-    // إنشاء زر المساعدة
-    const helpButton = document.createElement('button');
-    helpButton.className = 'speech-help-btn';
-    helpButton.title = 'مساعدة حول استخدام الإدخال الصوتي';
-    helpButton.innerHTML = '<i class="fas fa-microphone"></i>';
-    
-    // إضافة مستمع حدث النقر
-    helpButton.addEventListener('click', function() {
-        showSpeechHelpModal();
-    });
-    
-    // إضافة الزر إلى الصفحة
-    document.body.appendChild(helpButton);
-    
-    console.log('تم إضافة زر المساعدة للتعرف على الصوت');
-}
 
-/**
- * عرض نافذة المساعدة للتعرف على الصوت
- */
-function showSpeechHelpModal() {
-    const content = `
-        <div style="font-family: 'Tajawal', sans-serif; line-height: 1.6; text-align: right; direction: rtl;">
-            <h3 style="color: #3498db; margin-bottom: 15px; display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-microphone"></i>
-                كيفية استخدام الإدخال الصوتي
-            </h3>
-            
-            <p>يمكنك استخدام ميزة الإدخال الصوتي لإدخال البيانات باستخدام الصوت بدلاً من الكتابة. اتبع الخطوات التالية:</p>
-            
-            <ol style="padding-right: 20px; margin-bottom: 20px;">
-                <li>انقر على زر المايكروفون <i class="fas fa-microphone"></i> بجانب حقل الإدخال.</li>
-                <li>اسمح للمتصفح بالوصول إلى المايكروفون إذا طُلب منك ذلك.</li>
-                <li>تحدث بوضوح باللغة العربية.</li>
-                <li>سيتم تحويل كلامك تلقائيًا إلى نص في حقل الإدخال.</li>
-                <li>يمكنك تعديل النص يدويًا بعد الانتهاء إذا لزم الأمر.</li>
-            </ol>
-            
-            <div style="background-color: #f8fafc; border-right: 4px solid #3498db; padding: 15px; border-radius: 4px;">
-                <p style="margin-top: 0;"><strong>ملاحظات:</strong></p>
-                <ul style="padding-right: 20px; margin-bottom: 0;">
-                    <li>تأكد من أن المايكروفون يعمل بشكل صحيح.</li>
-                    <li>تحدث بوضوح وببطء للحصول على نتائج أفضل.</li>
-                    <li>يعمل هذا بشكل أفضل في بيئة هادئة خالية من الضوضاء.</li>
-                    <li>الأرقام والقيم المالية يتم التعرف عليها بشكل أفضل عند نطقها بوضوح.</li>
-                    <li>تأكد من استخدام متصفح حديث (Chrome أو Edge أو Safari) للحصول على أفضل نتائج.</li>
-                </ul>
-            </div>
-        </div>
-    `;
-    
-    // استخدام دالة عرض النافذة المنبثقة الموجودة
-    showModal('مساعدة الإدخال الصوتي', content);
-}
 
 /**
  * إعداد مستمعي الأحداث للنوافذ المنبثقة
@@ -5287,3 +5283,16 @@ function setupModalEvents() {
                     }
                 });
             }
+
+
+            document.getElementById("minimize-btn").addEventListener("click", () => {
+                window.windowControls.minimize();
+              });
+            
+              document.getElementById("maximize-btn").addEventListener("click", () => {
+                window.windowControls.maximize();
+              });
+            
+              document.getElementById("close-btn").addEventListener("click", () => {
+                window.windowControls.close();
+              });
