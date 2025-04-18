@@ -96,50 +96,9 @@
                             <input class="search-input" placeholder="بحث..." type="text" />
                             <i class="fas fa-search search-icon"></i>
                         </div>
-                        <!-- هذا نموذج لما يجب تعديله في ملف index.html -->
-
-
-<!-- بعد التعديل - مع إضافة الشارة (badge) -->
-<button class="btn btn-outline" id="notification-btn">
-    <i class="fas fa-bell"></i>
-    <span class="notification-badge" id="notification-badge">0</span>
-</button>
-
-<!-- 2. إضافة عنصر نافذة التنبيهات في نهاية الصفحة قبل قسم العناصر البرمجية -->
-<div class="modal-overlay" id="notifications-modal">
-    <div class="modal animate__animated animate__fadeInUp">
-        <div class="modal-header">
-            <h3 class="modal-title">التنبيهات</h3>
-            <button class="modal-close">×</button>
-        </div>
-        <div class="modal-body">
-            <div class="tabs">
-                <div class="tab-buttons">
-                    <button class="tab-btn active" data-tab="due-profits">أرباح مستحقة <span id="due-profits-count" class="tab-badge">0</span></button>
-                    <button class="tab-btn" data-tab="all-notifications">كافة التنبيهات <span id="all-notifications-count" class="tab-badge">0</span></button>
-                </div>
-                <div class="tab-content active" id="due-profits-tab">
-                    <div id="due-profits-list" class="notifications-list">
-                        <!-- سيتم ملؤه ديناميكياً -->
-                    </div>
-                </div>
-                <div class="tab-content" id="all-notifications-tab">
-                    <div id="all-notifications-list" class="notifications-list">
-                        <!-- سيتم ملؤه ديناميكياً -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close-btn">إغلاق</button>
-            <button class="btn btn-primary" id="mark-all-read-btn">
-                <i class="fas fa-check-double"></i>
-                <span>تعيين الكل كمقروء</span>
-            </button>
-        </div>
-    </div>
-</div>
-
+                        <button class="btn btn-outline" id="notification-btn">
+                            <i class="fas fa-bell"></i>
+                        </button>
                     </div>
                 </div>
                 <!-- Dashboard Cards -->
@@ -867,7 +826,19 @@
             </div>
         </div>
     </div>
-  
+    <!-- Notifications -->
+    <div class="notification" id="success-notification">
+        <div class="notification-icon success">
+            <i class="fas fa-check"></i>
+        </div>
+        <div class="notification-content">
+            <div class="notification-title">تمت العملية بنجاح</div>
+            <div class="notification-message">تم حفظ البيانات بنجاح.</div>
+        </div>
+        <div class="notification-close">
+            <i class="fas fa-times"></i>
+        </div>
+    </div>
     <!-- Scripts -->
     <!-- ملفات الأصلية (غير أساسية للتشغيل الجديد) -->
     <script src="database.js"></script>
@@ -882,21 +853,11 @@
     <script src="app.js"></script> -->
     <!-- الملف المعدل الجديد - يجب التأكد من وجود هذا الملف -->
     <script src="app-fixed.js"></script>
-    <script src="currency-formatter-loader.js"></script>
-    <script src="currency-formatter.js"></script>
-    <script src="sidebar.js"></script>
-   <!-- 3. إضافة استدعاء ملفات JavaScript في نهاية الصفحة -->
-<script src="notifications-system.js"></script>
-
-
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             console.log('تم تحميل الصفحة بنجاح');
             // سيتم تهيئة التطبيق تلقائيًا عبر الملف الجديد
         });
-
-
     </script>
 </body>
 
