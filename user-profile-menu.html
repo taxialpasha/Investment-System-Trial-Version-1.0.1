@@ -1,0 +1,383 @@
+<!-- نافذة الملف الشخصي -->
+<div class="modal-overlay" id="user-profile-modal">
+    <div class="modal animate__animated animate__fadeInUp user-settings-modal">
+        <div class="modal-header">
+            <h3 class="modal-title">الملف الشخصي</h3>
+            <button class="modal-close">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="user-profile-tabs">
+                <div class="user-profile-tab-btn active" data-tab="profile">معلومات الحساب</div>
+                <div class="user-profile-tab-btn" data-tab="security">الأمان</div>
+                <div class="user-profile-tab-btn" data-tab="notifications">الإشعارات</div>
+                <div class="user-profile-tab-btn" data-tab="appearance">المظهر</div>
+            </div>
+            
+            <!-- تبويب معلومات الحساب -->
+            <div class="user-profile-tab-content active" id="profile-tab">
+                <div class="grid-cols-2">
+                    <div class="form-group">
+                        <label class="form-label">الصورة الشخصية</label>
+                        <div class="profile-picture-container">
+                            <div class="profile-picture" id="profile-picture-preview">
+                                <!-- سيتم ملؤها ديناميكيًا -->
+                            </div>
+                            <div class="profile-picture-actions">
+                                <button class="btn btn-sm btn-outline" id="change-picture-btn">
+                                    <i class="fas fa-camera"></i>
+                                    <span>تغيير الصورة</span>
+                                </button>
+                                <button class="btn btn-sm btn-outline" id="remove-picture-btn">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">معلومات الحساب</label>
+                        <div class="form-group">
+                            <label class="form-label">الاسم الكامل</label>
+                            <input type="text" class="form-input" id="profile-name" placeholder="الاسم الكامل">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">البريد الإلكتروني</label>
+                            <input type="email" class="form-input" id="profile-email" placeholder="البريد الإلكتروني" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <input type="tel" class="form-input" id="profile-phone" placeholder="رقم الهاتف">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">الوظيفة</label>
+                        <input type="text" class="form-input" id="profile-title" placeholder="المسمى الوظيفي">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">تاريخ الانضمام</label>
+                        <input type="text" class="form-input" id="profile-join-date" readonly>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تبويب الأمان -->
+            <div class="user-profile-tab-content" id="security-tab">
+                <div class="section-title">تغيير كلمة المرور</div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور الحالية</label>
+                    <div class="auth-password-container">
+                        <input type="password" class="form-input" id="current-password" placeholder="أدخل كلمة المرور الحالية">
+                        <button type="button" class="auth-toggle-password" data-target="current-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور الجديدة</label>
+                    <div class="auth-password-container">
+                        <input type="password" class="form-input" id="new-password" placeholder="أدخل كلمة المرور الجديدة">
+                        <button type="button" class="auth-toggle-password" data-target="new-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <!-- مقياس قوة كلمة المرور -->
+                    <div class="password-strength-meter">
+                        <div class="strength-value" id="password-strength-meter"></div>
+                    </div>
+                    <div class="password-strength-text">
+                        <span class="strength-label" id="password-strength-label">قوة كلمة المرور:</span>
+                        <span class="strength-description" id="password-strength-description">لم يتم الإدخال</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تأكيد كلمة المرور الجديدة</label>
+                    <div class="auth-password-container">
+                        <input type="password" class="form-input" id="confirm-password" placeholder="أعد إدخال كلمة المرور الجديدة">
+                        <button type="button" class="auth-toggle-password" data-target="confirm-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" id="change-password-btn">تغيير كلمة المرور</button>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="section-title">المصادقة الثنائية</div>
+                <div class="two-factor-auth">
+                    <div class="two-factor-info">
+                        <div class="two-factor-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h4>تأمين حسابك بشكل إضافي</h4>
+                            <p>عند تفعيل المصادقة الثنائية، ستحتاج إلى رمز إضافي عند تسجيل الدخول.</p>
+                        </div>
+                    </div>
+                    <div class="two-factor-toggle">
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="two-factor-toggle">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="section-title">الأجهزة المتصلة</div>
+                <div class="connected-devices" id="connected-devices-list">
+                    <!-- سيتم ملؤها ديناميكيًا -->
+                    <div class="device-item">
+                        <div class="device-icon">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="device-info">
+                            <div class="device-name">حاسوب محمول - Chrome</div>
+                            <div class="device-details">
+                                <span class="device-location">بغداد، العراق</span>
+                                <span class="device-time">آخر نشاط: منذ 5 دقائق</span>
+                            </div>
+                        </div>
+                        <div class="device-actions">
+                            <button class="btn btn-icon btn-sm btn-danger" title="إنهاء الجلسة">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تبويب الإشعارات -->
+            <div class="user-profile-tab-content" id="notifications-tab">
+                <div class="section-title">إعدادات الإشعارات</div>
+                <div class="notification-settings">
+                    <div class="notification-group">
+                        <h4>إشعارات النظام</h4>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">الأرباح المستحقة</div>
+                                <div class="notification-description">إعلامك عندما تكون هناك أرباح جديدة مستحقة للدفع</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="profits-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">إيداعات جديدة</div>
+                                <div class="notification-description">إعلامك عند إضافة إيداع جديد في النظام</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="deposits-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">عمليات السحب</div>
+                                <div class="notification-description">إعلامك عند إجراء عملية سحب</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="withdrawals-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">مستثمرين جدد</div>
+                                <div class="notification-description">إعلامك عند إضافة مستثمر جديد</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="investors-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="notification-group">
+                        <h4>طرق الإشعار</h4>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">إشعارات داخل التطبيق</div>
+                                <div class="notification-description">إظهار الإشعارات في التطبيق</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="in-app-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">البريد الإلكتروني</div>
+                                <div class="notification-description">إرسال إشعارات عبر البريد الإلكتروني</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" checked id="email-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                        <div class="notification-option">
+                            <div>
+                                <div class="notification-title">إشعارات سطح المكتب</div>
+                                <div class="notification-description">إظهار إشعارات على سطح المكتب</div>
+                            </div>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="desktop-notification-toggle">
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- تبويب المظهر -->
+            <div class="user-profile-tab-content" id="appearance-tab">
+                <div class="section-title">ثيم النظام</div>
+                <div class="theme-preview">
+                    <div class="theme-option theme-light active" data-theme="light">
+                        <div class="theme-preview-header"></div>
+                        <div class="theme-preview-content">
+                            <div class="theme-preview-sidebar"></div>
+                        </div>
+                        <div class="theme-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="theme-option theme-dark" data-theme="dark">
+                        <div class="theme-preview-header"></div>
+                        <div class="theme-preview-content">
+                            <div class="theme-preview-sidebar"></div>
+                        </div>
+                        <div class="theme-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="theme-option theme-blue" data-theme="blue">
+                        <div class="theme-preview-header"></div>
+                        <div class="theme-preview-content">
+                            <div class="theme-preview-sidebar"></div>
+                        </div>
+                        <div class="theme-check">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section-divider"></div>
+                
+                <div class="section-title">تخصيصات إضافية</div>
+                <div class="form-group">
+                    <label class="form-label">حجم الخط</label>
+                    <select class="form-select" id="font-size-select">
+                        <option value="small">صغير</option>
+                        <option value="medium" selected>متوسط</option>
+                        <option value="large">كبير</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">كثافة العرض</label>
+                    <select class="form-select" id="density-select">
+                        <option value="compact">مضغوط</option>
+                        <option value="normal" selected>عادي</option>
+                        <option value="comfortable">مريح</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="animations-toggle" checked>
+                        <span>تفعيل الرسوم المتحركة</span>
+                    </label>
+                </div>
+                
+                <div class="form-group">
+                    <label class="toggle-label">
+                        <input type="checkbox" id="rtl-toggle" checked>
+                        <span>واجهة من اليمين إلى اليسار (RTL)</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button class="btn btn-primary" id="save-profile-settings">حفظ التغييرات</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة سجل النشاطات -->
+<div class="modal-overlay" id="activity-log-modal">
+    <div class="modal animate__animated animate__fadeInUp">
+        <div class="modal-header">
+            <h3 class="modal-title">سجل النشاطات</h3>
+            <button class="modal-close">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="activity-filters">
+                <div class="form-group">
+                    <label class="form-label">تصفية حسب النوع</label>
+                    <select class="form-select" id="activity-type-filter">
+                        <option value="all">جميع النشاطات</option>
+                        <option value="login">تسجيل الدخول</option>
+                        <option value="profile">تعديل الملف الشخصي</option>
+                        <option value="transaction">العمليات المالية</option>
+                        <option value="settings">الإعدادات</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="activity-timeline" id="activity-timeline">
+                <!-- سيتم ملؤها ديناميكيًا -->
+                <div class="activity-item">
+                    <div class="activity-icon login">
+                        <i class="fas fa-sign-in-alt"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <div class="activity-title">تسجيل الدخول</div>
+                            <div class="activity-time">منذ 10 دقائق</div>
+                        </div>
+                        <div class="activity-details">تم تسجيل الدخول من جهاز جديد (Windows, Chrome) - بغداد، العراق</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon profile">
+                        <i class="fas fa-user-edit"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <div class="activity-title">تعديل الملف الشخصي</div>
+                            <div class="activity-time">منذ 2 ساعة</div>
+                        </div>
+                        <div class="activity-details">تم تحديث معلومات الملف الشخصي</div>
+                    </div>
+                </div>
+                
+                <div class="activity-item">
+                    <div class="activity-icon transaction">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-header">
+                            <div class="activity-title">إضافة معاملة جديدة</div>
+                            <div class="activity-time">منذ 5 ساعات</div>
+                        </div>
+                        <div class="activity-details">تمت إضافة إيداع جديد للمستثمر "أحمد محمد" بقيمة 10,000 دينار</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="clear-activity-log">مسح السجل</button>
+            <button class="btn btn-primary" id="export-activity-log">
+                <i class="fas fa-download"></i>
+                <span>تصدير السجل</span>
+            </button>
+        </div>
+    </div>
+</div>
