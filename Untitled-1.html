@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام الاستثمار المتكامل</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts - Tajawal -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap">
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <!-- CSS Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="layout">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <span>نظام الاستثمار</span>
+                </div>
+            </div>
+            
+            <nav>
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-page="dashboard">
+                            <div class="nav-icon">
+                                <i class="fas fa-home"></i>
+                            </div>
+                            <span>لوحة التحكم</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="investors">
+                            <div class="nav-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <span>المستثمرين</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="transactions">
+                            <div class="nav-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <span>العمليات</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="profits">
+                            <div class="nav-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <span>الأرباح</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="reports">
+                            <div class="nav-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <span>التقارير</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="settings">
+                            <div class="nav-icon">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <span>الإعدادات</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Dashboard Page -->
+            <div class="page active" id="dashboard-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">لوحة التحكم</h1>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="بحث...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button class="btn btn-outline" id="notification-btn">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Dashboard Cards -->
+                <div class="dashboard-cards">
+                    <div class="card">
+                        <div class="card-pattern">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">إجمالي الاستثمارات</div>
+                                <div class="card-value" id="total-investments">0 دينار</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>15% من الشهر الماضي</span>
+                                </div>
+                            </div>
+                            <div class="card-icon primary">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-pattern">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">الأرباح الشهرية</div>
+                                <div class="card-value" id="monthly-profits">0 دينار</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>12% من الشهر الماضي</span>
+                                </div>
+                            </div>
+                            <div class="card-icon success">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-pattern">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">عدد المستثمرين</div>
+                                <div class="card-value" id="investors-count">0</div>
+                                <div class="card-change positive">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>5 مستثمرين جدد</span>
+                                </div>
+                            </div>
+                            <div class="card-icon warning">
+                                <i class="fas fa-users"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-pattern">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="card-header">
+                            <div>
+                                <div class="card-title">نسبة العائد الشهري</div>
+                                <div class="card-value" id="interest-rate">17.5%</div>
+                                <div class="card-change">
+                                    <span>متوسط العائد السنوي: 210%</span>
+                                </div>
+                            </div>
+                            <div class="card-icon info">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">أحدث العمليات</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-filter"></i>
+                                <span>تصفية</span>
+                            </button>
+                            <button class="btn btn-primary btn-sm">
+                                <i class="fas fa-plus"></i>
+                                <span>عملية جديدة</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="recent-transactions">
+                            <thead>
+                                <tr>
+                                    <th>المعرف</th>
+                                    <th>المستثمر</th>
+                                    <th>نوع العملية</th>
+                                    <th>التاريخ</th>
+                                    <th>المبلغ</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- سيتم ملؤها ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Statistics Section -->
+                <div class="grid-cols-2">
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">إحصائيات الاستثمار</h2>
+                            <div class="section-actions">
+                                <div class="btn-group">
+                                    <button class="btn btn-outline btn-sm active">أسبوعي</button>
+                                    <button class="btn btn-outline btn-sm">شهري</button>
+                                    <button class="btn btn-outline btn-sm">سنوي</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="investment-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">توزيع المستثمرين</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="investors-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investors Page -->
+            <div class="page" id="investors-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">المستثمرين</h1>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="بحث عن مستثمر...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button class="btn btn-primary" id="add-investor-btn">
+                            <i class="fas fa-plus"></i>
+                            <span>إضافة مستثمر</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">قائمة المستثمرين</h2>
+                        <div class="section-actions">
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-filter"></i>
+                                <span>تصفية</span>
+                            </button>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-download"></i>
+                                <span>تصدير</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="investors-table">
+                            <thead>
+                                <tr>
+                                    <th>المعرف</th>
+                                    <th>المستثمر</th>
+                                    <th>رقم الهاتف</th>
+                                    <th>المبلغ المستثمر</th>
+                                    <th>الربح الشهري</th>
+                                    <th>تاريخ الانضمام</th>
+                                    <th>الحالة</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- سيتم ملؤها ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <div class="page-item disabled">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="page-item active">1</div>
+                        <div class="page-item">2</div>
+                        <div class="page-item">3</div>
+                        <div class="page-item">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Page -->
+            <div class="page" id="transactions-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">العمليات</h1>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="بحث عن عملية...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn btn-primary" id="add-deposit-btn">
+                                <i class="fas fa-plus"></i>
+                                <span>إيداع</span>
+                            </button>
+                            <button class="btn btn-warning" id="add-withdraw-btn">
+                                <i class="fas fa-minus"></i>
+                                <span>سحب</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">سجل العمليات</h2>
+                        <div class="section-actions">
+                            <div class="btn-group">
+                                <button class="btn btn-outline btn-sm active">الكل</button>
+                                <button class="btn btn-outline btn-sm">إيداع</button>
+                                <button class="btn btn-outline btn-sm">سحب</button>
+                                <button class="btn btn-outline btn-sm">أرباح</button>
+                            </div>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-download"></i>
+                                <span>تصدير</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="transactions-table">
+                            <thead>
+                                <tr>
+                                    <th>المعرف</th>
+                                    <th>المستثمر</th>
+                                    <th>نوع العملية</th>
+                                    <th>التاريخ</th>
+                                    <th>المبلغ</th>
+                                    <th>الرصيد بعد العملية</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- سيتم ملؤها ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <div class="page-item disabled">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                        <div class="page-item active">1</div>
+                        <div class="page-item">2</div>
+                        <div class="page-item">3</div>
+                        <div class="page-item">
+                            <i class="fas fa-chevron-left"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profits Page -->
+            <div class="page" id="profits-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">الأرباح</h1>
+                    <div class="header-actions">
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="بحث عن مستثمر...">
+                            <i class="fas fa-search search-icon"></i>
+                        </div>
+                        <button class="btn btn-success" id="pay-profits-btn">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <span>دفع الأرباح</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">الأرباح المستحقة</h2>
+                        <div class="section-actions">
+                            <div class="btn-group">
+                                <button class="btn btn-outline btn-sm active">الشهر الحالي</button>
+                                <button class="btn btn-outline btn-sm">قيد الانتظار</button>
+                                <button class="btn btn-outline btn-sm">مدفوعة</button>
+                            </div>
+                            <button class="btn btn-outline btn-sm">
+                                <i class="fas fa-download"></i>
+                                <span>تصدير</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-container">
+                        <table id="profits-table">
+                            <thead>
+                                <tr>
+                                    <th>المستثمر</th>
+                                    <th>المبلغ المستثمر</th>
+                                    <th>تاريخ الاستثمار</th>
+                                    <th>أيام الاستثمار</th>
+                                    <th>الربح المستحق</th>
+                                    <th>تاريخ الاستحقاق</th>
+                                    <th>الإجراءات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- سيتم ملؤها ديناميكيًا -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Reports Page -->
+            <div class="page" id="reports-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">التقارير</h1>
+                    <div class="header-actions">
+                        <div class="btn-group">
+                            <button class="btn btn-outline active">أسبوعي</button>
+                            <button class="btn btn-outline">شهري</button>
+                            <button class="btn btn-outline">سنوي</button>
+                        </div>
+                        <button class="btn btn-primary">
+                            <i class="fas fa-download"></i>
+                            <span>تصدير التقرير</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid-cols-2">
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">تطور الاستثمارات</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="investments-growth-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">تطور الأرباح</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="profits-growth-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">توزيع الاستثمارات حسب الفئة</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="investments-distribution-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="section">
+                        <div class="section-header">
+                            <h2 class="section-title">أداء الاستثمارات</h2>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="investments-performance-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div class="page" id="settings-page">
+                <div class="header">
+                    <button class="toggle-sidebar">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 class="page-title">الإعدادات</h1>
+                </div>
+
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">إعدادات النظام</h2>
+                    </div>
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="general">عام</button>
+                        <button class="tab-btn" data-tab="profits">الأرباح</button>
+                        <button class="tab-btn" data-tab="notifications">الإشعارات</button>
+                        <button class="tab-btn" data-tab="backup">النسخ الاحتياطي</button>
+                    </div>
+                    <div class="tab-content active" id="general-tab">
+                        <form id="general-settings-form">
+                            <div class="form-group">
+                                <label class="form-label">اسم النظام</label>
+                                <input type="text" class="form-input" value="نظام الاستثمار المتكامل">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">العملة</label>
+                                <select class="form-select">
+                                    <option value="دينار">دينار</option>
+                                    <option value="دولار">دولار</option>
+                                    <option value="يورو">يورو</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">لغة النظام</label>
+                                <select class="form-select">
+                                    <option value="ar">العربية</option>
+                                    <option value="en">الإنجليزية</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-content" id="profits-tab">
+                        <form id="profits-settings-form">
+                            <div class="form-group">
+                                <label class="form-label">نسبة الربح الشهري (%)</label>
+                                <input type="number" class="form-input" value="17.5" step="0.1" min="0" max="100" id="interest-rate-setting">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">طريقة حساب الأرباح</label>
+                                <select class="form-select">
+                                    <option value="daily">يومي (حسب عدد أيام الاستثمار)</option>
+                                    <option value="monthly">شهري (دورة كاملة)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">دورة دفع الأرباح</label>
+                                <select class="form-select">
+                                    <option value="30">شهري (30 يوم)</option>
+                                    <option value="90">ربع سنوي (90 يوم)</option>
+                                    <option value="180">نصف سنوي (180 يوم)</option>
+                                    <option value="365">سنوي (365 يوم)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-content" id="notifications-tab">
+                        <form id="notifications-settings-form">
+                            <div class="form-group">
+                                <label class="form-label">التذكير قبل استحقاق الأرباح (أيام)</label>
+                                <input type="number" class="form-input" value="3" min="1" max="30" id="reminder-days">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">إشعارات البريد الإلكتروني</label>
+                                <div class="form-check">
+                                    <input type="checkbox" id="email-new-investor" checked>
+                                    <label for="email-new-investor">مستثمر جديد</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="email-profit-payment" checked>
+                                    <label for="email-profit-payment">دفع الأرباح</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="checkbox" id="email-withdrawal" checked>
+                                    <label for="email-withdrawal">عمليات السحب</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">حفظ الإعدادات</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-content" id="backup-tab">
+                        <div class="form-group">
+                            <label class="form-label">النسخ الاحتياطي التلقائي</label>
+                            <div class="form-check">
+                                <input type="checkbox" id="auto-backup" checked>
+                                <label for="auto-backup">تفعيل النسخ الاحتياطي التلقائي</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">تكرار النسخ الاحتياطي</label>
+                            <select class="form-select">
+                                <option value="daily">يومي</option>
+                                <option value="weekly" selected>أسبوعي</option>
+                                <option value="monthly">شهري</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-download"></i>
+                                <span>تنزيل نسخة احتياطية</span>
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-upload"></i>
+                                <span>استعادة من نسخة احتياطية</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Action Button -->
+    <div class="fab" id="add-new-fab">
+        <i class="fas fa-plus"></i>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Investor Modal -->
+    <div class="modal-overlay" id="add-investor-modal">
+        <div class="modal animate__animated animate__fadeInUp">
+            <div class="modal-header">
+                <h3 class="modal-title">إضافة مستثمر جديد</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-investor-form">
+                    <div class="grid-cols-2">
+                        <div class="form-group">
+                            <label class="form-label">اسم المستثمر</label>
+                            <div class="input-group">
+                                <input type="text" class="form-input" id="investor-name" required>
+                                <button type="button" class="btn btn-icon-sm mic-btn" data-input="investor-name">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم الهاتف</label>
+                            <div class="input-group">
+                                <input type="tel" class="form-input" id="investor-phone" required>
+                                <button type="button" class="btn btn-icon-sm mic-btn" data-input="investor-phone">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">العنوان</label>
+                            <div class="input-group">
+                                <input type="text" class="form-input" id="investor-address" required>
+                                <button type="button" class="btn btn-icon-sm mic-btn" data-input="investor-address">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">رقم البطاقة</label>
+                            <div class="input-group">
+                                <input type="text" class="form-input" id="investor-card" required>
+                                <button type="button" class="btn btn-icon-sm mic-btn" data-input="investor-card">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">تاريخ الإيداع</label>
+                            <input type="date" class="form-input" id="investor-deposit-date" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">المبلغ (بالدينار)</label>
+                            <div class="input-group">
+                                <input type="number" class="form-input" id="investor-amount" min="1" step="1000" required>
+                                <button type="button" class="btn btn-icon-sm mic-btn" data-input="investor-amount">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline modal-close-btn">إلغاء</button>
+                <button class="btn btn-primary" id="save-investor-btn">إضافة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Deposit Modal -->
+    <div class="modal-overlay" id="add-deposit-modal">
+        <div class="modal animate__animated animate__fadeInUp">
+            <div class="modal-header">
+                <h3 class="modal-title">إيداع جديد</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="add-deposit-form">
+                    <div class="form-group">
+                        <label class="form-label">المستثمر</label>
+                        <select class="form-select" id="deposit-investor" required>
+                        <option value="">اختر المستثمر</option>
+                        <!-- سيتم ملؤها ديناميكيًا -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المبلغ (بالدينار)</label>
+                    <div class="input-group">
+                        <input type="number" class="form-input" id="deposit-amount" min="1" step="1000" required>
+                        <button type="button" class="btn btn-icon-sm mic-btn" data-input="deposit-amount">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تاريخ الإيداع</label>
+                    <input type="date" class="form-input" id="deposit-date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ملاحظات</label>
+                    <textarea class="form-input" id="deposit-notes" rows="3"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button class="btn btn-primary" id="save-deposit-btn">إيداع</button>
+        </div>
+    </div>
+</div>
+
+<!-- Add Withdrawal Modal -->
+<div class="modal-overlay" id="add-withdraw-modal">
+    <div class="modal animate__animated animate__fadeInUp">
+        <div class="modal-header">
+            <h3 class="modal-title">سحب</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="add-withdraw-form">
+                <div class="form-group">
+                    <label class="form-label">المستثمر</label>
+                    <select class="form-select" id="withdraw-investor" required>
+                        <option value="">اختر المستثمر</option>
+                        <!-- سيتم ملؤها ديناميكيًا -->
+                    </select>
+                </div>
+                <div class="form-group" id="withdraw-balance-info">
+                    <!-- سيتم ملؤها ديناميكيًا -->
+                </div>
+                <div class="form-group">
+                    <label class="form-label">المبلغ (بالدينار)</label>
+                    <div class="input-group">
+                        <input type="number" class="form-input" id="withdraw-amount" min="1" step="1000" required>
+                        <button type="button" class="btn btn-icon-sm mic-btn" data-input="withdraw-amount">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">تاريخ السحب</label>
+                    <input type="date" class="form-input" id="withdraw-date" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">ملاحظات</label>
+                    <textarea class="form-input" id="withdraw-notes" rows="3"></textarea>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button class="btn btn-warning" id="save-withdraw-btn">سحب</button>
+        </div>
+    </div>
+</div>
+
+<!-- Pay Profit Modal -->
+<div class="modal-overlay" id="pay-profit-modal">
+    <div class="modal animate__animated animate__fadeInUp">
+        <div class="modal-header">
+            <h3 class="modal-title">دفع الأرباح</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="pay-profit-form">
+                <div class="form-group">
+                    <label class="form-label">المستثمر</label>
+                    <select class="form-select" id="profit-investor" required>
+                        <option value="">اختر المستثمر</option>
+                        <!-- سيتم ملؤها ديناميكيًا -->
+                    </select>
+                </div>
+                <div id="profit-details">
+                    <!-- سيتم ملؤها ديناميكيًا -->
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">إلغاء</button>
+            <button class="btn btn-success" id="confirm-pay-profit">دفع الأرباح</button>
+        </div>
+    </div>
+</div>
+
+<!-- Investor Details Modal -->
+<div class="modal-overlay" id="investor-details-modal">
+    <div class="modal animate__animated animate__fadeInUp">
+        <div class="modal-header">
+            <h3 class="modal-title">تفاصيل المستثمر</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        <div class="modal-body">
+            <div id="investor-details-content">
+                <!-- سيتم ملؤها ديناميكيًا -->
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close-btn">إغلاق</button>
+            <div class="btn-group">
+                <button class="btn btn-primary" id="edit-investor-btn">
+                    <i class="fas fa-edit"></i>
+                    <span>تعديل</span>
+                </button>
+                <button class="btn btn-success" id="investor-profit-btn">
+                    <i class="fas fa-coins"></i>
+                    <span>دفع الأرباح</span>
+                </button>
+                <button class="btn btn-danger" id="delete-investor-btn">
+                    <i class="fas fa-trash"></i>
+                    <span>حذف</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notifications -->
+<div class="notification" id="success-notification">
+    <div class="notification-icon success">
+        <i class="fas fa-check"></i>
+    </div>
+    <div class="notification-content">
+        <div class="notification-title">تمت العملية بنجاح</div>
+        <div class="notification-message">تم حفظ البيانات بنجاح.</div>
+    </div>
+    <div class="notification-close">
+        <i class="fas fa-times"></i>
+    </div>
+</div>
+
+    <!-- Scripts -->
+    <script src="config.js"></script>
+    <script src="database.js"></script>
+    <script src="notifications.js"></script>
+    <script src="sidebar.js"></script>
+    <script src="investors.js"></script>
+    <script src="transactions.js"></script>
+    <script src="profits.js"></script>
+    <script src="reports.js"></script>
+    <script src="settings.js"></script>
+    <script src="main.js"></script>
+    <script src="app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // الكود هنا
+        });
+    </script>
+</body>
+</html>
